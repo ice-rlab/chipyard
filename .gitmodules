@@ -1,12 +1,10 @@
+# Original submodules:
 [submodule "fpga/fpga-shells"]
 	path = fpga/fpga-shells
 	url = https://github.com/chipsalliance/rocket-chip-fpga-shells.git
 [submodule "generators/bar-fetchers"]
 	path = generators/bar-fetchers
 	url = https://github.com/ucb-bar/bar-fetchers.git
-[submodule "generators/boom"]
-	path = generators/boom
-	url = https://github.com/riscv-boom/riscv-boom.git
 [submodule "generators/caliptra-aes-acc"]
 	path = generators/caliptra-aes-acc
 	url = https://github.com/ucb-bar/caliptra-aes-acc.git
@@ -46,9 +44,6 @@
 [submodule "generators/rocc-acc-utils"]
 	path = generators/rocc-acc-utils
 	url = https://github.com/ucb-bar/rocc-acc-utils.git
-[submodule "generators/rocket-chip"]
-	path = generators/rocket-chip
-	url = https://github.com/chipsalliance/rocket-chip.git
 [submodule "generators/rocket-chip-blocks"]
 	path = generators/rocket-chip-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
@@ -154,3 +149,12 @@
 [submodule "generators/vexiiriscv"]
 	path = generators/vexiiriscv
 	url = https://github.com/ucb-bar/vexiiriscv-tile.git
+# Updated submodules:
+[submodule "generators/boom"]
+	path = generators/boom
+	url = git@github.com:ice-rlab/riscv-boom.git
+	branch = perf_char
+[submodule "generators/rocket-chip"]
+	path = generators/rocket-chip
+	url = git@github.com:ice-rlab/rocket-chip.git
+	branch = perf_char
