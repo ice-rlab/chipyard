@@ -70,6 +70,23 @@ class SimBlockDeviceMegaBoomV3Config extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+
+class MegaBoomScalarCountersConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,                             // small boom config
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
+  new chipyard.config.AbstractConfig)
+
+class MegaBoomAddWiresConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,                             // small boom config
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
+  new chipyard.config.AbstractConfig)
+
+class MegaBoomDistributedCountersConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,                             // small boom config
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
+  new chipyard.config.AbstractConfig)
+
+
 // ---------------------
 // BOOM V4 Configs
 // Less stable and performant, but with more advanced micro-architecture
@@ -131,3 +148,5 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
   new boom.v4.common.WithNMegaBooms(1) ++                        // mega boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
+
+
