@@ -56,9 +56,6 @@
 [submodule "generators/testchipip"]
 	path = generators/testchipip
 	url = https://github.com/ucb-bar/testchipip.git
-[submodule "sims/firesim"]
-	path = sims/firesim
-	url = https://github.com/firesim/firesim.git
 [submodule "software/baremetal-ide"]
 	path = software/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
@@ -157,4 +154,8 @@
 [submodule "generators/rocket-chip"]
 	path = generators/rocket-chip
 	url = git@github.com:ice-rlab/rocket-chip.git
+	branch = perf_char
+[submodule "sims/firesim"]
+	path = sims/firesim
+	url = git@github.com:ice-rlab/firesim.git
 	branch = perf_char
