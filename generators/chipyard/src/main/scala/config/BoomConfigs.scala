@@ -169,3 +169,32 @@ class LargeDistributedCountersConfig extends Config(
     boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
+
+
+
+// // From Protoacc paper configs: 
+// class ProtoMegaBoomBaseConfigNoAccel extends Config(
+  // new chipyard.harness.WithUARTAdapter ++
+  // new chipyard.harness.WithTieOffInterrupts ++
+  // new chipyard.harness.WithBlackBoxSimMem ++
+  // new chipyard.harness.WithTiedOffDebug ++
+  // new chipyard.harness.WithSimSerial ++
+  // new testchipip.WithTSI ++
+  // new chipyard.config.WithBootROM ++
+  // new chipyard.config.WithUART ++
+  // new chipyard.config.WithL2TLBs(1024) ++
+  // new freechips.rocketchip.subsystem.WithNoMMIOPort ++
+  // new freechips.rocketchip.subsystem.WithNoSlavePort ++
+  // new freechips.rocketchip.subsystem.WithInclusiveCache(nBanks=8, nWays=16, capacityKB=2048) ++
+  // new WithExtMemIdBits(7) ++
+  // new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
+  // new freechips.rocketchip.subsystem.WithNExtTopInterrupts(0) ++
+  // new boom.common.WithBoomCommitLogPrintf ++
+  // new boom.common.WithMegaBooms ++                              // mega boom config
+  // new boom.common.WithNBoomCores(1) ++
+  // new freechips.rocketchip.subsystem.WithCoherentBusTopology ++
+  // new freechips.rocketchip.system.BaseConfig)
+
+// class ProtoSerMegaBoomConfig extends Config(
+//   new protoacc.WithProtoAccelSerOnly ++
+//   new ProtoMegaBoomBaseConfigNoAccel)
