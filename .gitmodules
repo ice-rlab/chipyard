@@ -159,3 +159,6 @@
 	path = sims/firesim
 	url = git@github.com:ice-rlab/firesim.git
 	branch = perf_char
+[submodule "generators/proto-acc"]
+	path = generators/proto-acc
+	url = git@github.com:ice-rlab/protoacc.git
