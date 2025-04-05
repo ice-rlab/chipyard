@@ -39,3 +39,13 @@ object ConvertTileTraceIO {
     ttw
   }
 }
+
+object ConvertTileTraceDoctorIO {
+  def apply(tiletrace: testchipip.cosim.TileTraceDoctorIO ): TileTraceDoctorIO  = {
+    val ttw = Wire(new TileTraceDoctorIO (tiletrace.getTraceWidth()))
+    ttw.clock := tiletrace.clock
+    ttw.reset := tiletrace.reset
+    ttw.data := tiletrace.data
+    ttw
+  }
+}

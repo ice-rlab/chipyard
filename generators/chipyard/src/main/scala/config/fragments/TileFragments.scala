@@ -11,7 +11,7 @@ import cva6.{CVA6TileAttachParams}
 import sodor.common.{SodorTileAttachParams}
 import ibex.{IbexTileAttachParams}
 import vexiiriscv.{VexiiRiscvTileAttachParams}
-import testchipip.cosim.{TracePortKey, TracePortParams}
+import testchipip.cosim.{TracePortKey, TraceDoctorPortKey, TracePortParams, TraceDoctorPortParams}
 import barf.{TilePrefetchingMasterPortParams}
 
 class WithL2TLBs(entries: Int) extends Config((site, here, up) => {
@@ -37,6 +37,19 @@ class WithTraceIO extends Config((site, here, up) => {
     case other => other
   }
   case TracePortKey => Some(TracePortParams())
+})
+
+
+class WithTraceDoctorIO(traceWidth: Int = 512) extends Config((site, here, up) => {
+  case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
+    case tp: RocketTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+      core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
+    // TODO: BOOM integration of tracedoctor
+    // case tp: BoomTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+    //   core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
+    case other => other
+  }
+  case TraceDoctorPortKey => Some(TraceDoctorPortParams())
 })
 
 class WithNoTraceIO extends Config((site, here, up) => {

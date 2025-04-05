@@ -100,6 +100,8 @@ class WithFireSimDesignTweaks extends Config(
   new chipyard.config.WithNoUART() ++       // so we overwrite the default one
   // Optional: Adds IO to attach tracerV bridges
   new chipyard.config.WithTraceIO ++
+  // Optional: Adds IO to attach to DoctorTraceBridges
+  new chipyard.config.WithTraceDoctorIO ++
   // Optional: Request 16 GiB of target-DRAM by default (can safely request up to 64 GiB on F1)
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 16L) ++
   // Optional: Removing this will require using an initramfs under linux
@@ -390,3 +392,19 @@ class FireSimLarge1GiBDRAMBoomConfig extends Config(
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
   new chipyard.LargeBoomV3Config)
+
+
+
+
+
+
+// Accelerator configs
+
+class FireSimZstdCompressorRocketConfig extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.ZstdCompressorRocketConfig)
+
+class FireSimZstdCompressorRocketConfig1GiBDRAMConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new FireSimRocketConfig)

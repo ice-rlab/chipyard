@@ -35,7 +35,7 @@ import testchipip.boot.{CanHavePeripheryCustomBootPin}
 import testchipip.soc.{CanHavePeripheryChipIdPin}
 import testchipip.util.{ClockedIO}
 import testchipip.iceblk.{CanHavePeripheryBlockDevice, BlockDeviceKey, BlockDeviceIO}
-import testchipip.cosim.{CanHaveTraceIO, TraceOutputTop, SpikeCosimConfig}
+import testchipip.cosim.{CanHaveTraceIO, CanHaveTraceDoctorIO, TraceOutputTop, TraceDoctorOutputTop, SpikeCosimConfig}
 import testchipip.tsi.{CanHavePeripheryUARTTSI, UARTTSIIO}
 import icenet.{CanHavePeripheryIceNIC, SimNetwork, NicLoopback, NICKey, NICIOvonly}
 import chipyard.{CanHaveMasterTLMemPort, ChipyardSystem, ChipyardSystemModule}
@@ -500,6 +500,18 @@ class WithTraceIOPunchthrough extends OverrideLazyIOBinder({
     (ports.toSeq, Nil)
   }
 })
+
+class WithTraceDoctorIOPunchthrough extends OverrideLazyIOBinder({
+   (system: CanHaveTraceDoctorIO) => InModuleBody {
+     val ports: Option[TraceDoctorPort] = system.traceDoctorIO.map { t =>
+       val tracedoctor = IO(DataMirror.internal.chiselTypeClone[TraceDoctorOutputTop](t)).suggestName("tracedoctor")
+       tracedoctor <> t
+       tracedoctor
+       TraceDoctorPort(() => tracedoctor)
+     }
+     (ports.toSeq, Nil)
+   }
+ })
 
 class WithCustomBootPin extends OverrideIOBinder({
   (system: CanHavePeripheryCustomBootPin) => system.custom_boot_pin.map({ p =>

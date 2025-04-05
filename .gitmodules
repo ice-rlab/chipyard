@@ -53,9 +53,6 @@
 [submodule "generators/shuttle"]
 	path = generators/shuttle
 	url = https://github.com/ucb-bar/shuttle.git
-[submodule "generators/testchipip"]
-	path = generators/testchipip
-	url = https://github.com/ucb-bar/testchipip.git
 [submodule "software/baremetal-ide"]
 	path = software/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
@@ -162,3 +159,7 @@
 [submodule "generators/proto-acc"]
 	path = generators/proto-acc
 	url = git@github.com:ice-rlab/protoacc.git
+[submodule "generators/testchipip"]
+	path = generators/testchipip
+	url = git@github.com:ice-rlab/testchipip.git
+	branch = perf_char
