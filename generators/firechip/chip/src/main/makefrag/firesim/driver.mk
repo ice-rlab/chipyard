@@ -67,4 +67,6 @@ TARGET_CXX_FLAGS += \
 		-I$(GENERATED_DIR) \
 		-g
 
+$(info DRIVER_CC = $(DRIVER_CC))
+$(info DRIVER_H = $(DRIVER_H))
 # DOC include end: Bridge Build System Changes

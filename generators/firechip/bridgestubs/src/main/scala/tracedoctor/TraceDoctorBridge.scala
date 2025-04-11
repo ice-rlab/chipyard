@@ -15,12 +15,9 @@ import firesim.lib.bridgeutils._
 import firechip.bridgeinterfaces._
 
 
- 
-case class TraceDoctorKey(traceWidth: Int)
-
 class TraceDoctorBridge(val traceWidth: Int) extends BlackBox with Bridge[HostPortIO[TraceDoctorBridgeTargetIO]] {
     require(traceWidth > 0, "TracerVBridge: number of instructions must be larger than 0")
-    val moduleName = "firechip.goldengateImplementations.TraceDoctorBridgeModule"
+    val moduleName = "firechip.goldengateimplementations.TraceDoctorBridgeModule"
     val io = IO(new TraceDoctorBridgeTargetIO(traceWidth))
     val bridgeIO = HostPort(io)
     val constructorArg = Some(TraceDoctorKey(traceWidth))

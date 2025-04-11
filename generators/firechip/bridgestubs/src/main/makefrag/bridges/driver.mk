@@ -53,7 +53,7 @@ DRIVER_CC += \
 TARGET_CXX_FLAGS += \
 		-I$(firechip_lib_dir) \
 		-I$(firechip_lib_dir)/bridge \
-		-I$(firechip_lib_dir)/bridge/tracerv
+		-I$(firechip_lib_dir)/bridge/tracerv 
 TARGET_LD_FLAGS += -l:libdwarf.so -l:libelf.so
 
 # other

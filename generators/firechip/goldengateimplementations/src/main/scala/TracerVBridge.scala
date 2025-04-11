@@ -43,6 +43,7 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     // When unset, diables token capture to improve FMR, while still enabling the
     // use of TracerV-based triggers
     val traceEnable              = genWORegInit(Wire(Bool()), "traceEnable", true.B)
+    
     //Program Counter trigger value can be configured externally
     val hostTriggerPCWidthOffset = pcWidth - p(CtrlNastiKey).dataBits
     val hostTriggerPCLowWidth    = if (hostTriggerPCWidthOffset > 0) p(CtrlNastiKey).dataBits else pcWidth

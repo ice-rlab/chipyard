@@ -158,6 +158,7 @@ class WithDefaultFireSimBridges extends Config(
   new WithFireSimMultiCycleRegfile ++
   new WithFireSimFAME5 ++
   new WithTracerVBridge ++
+  new WithTraceDoctorBridge ++
   new WithFireSimIOCellModels
 )
 
