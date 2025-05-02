@@ -55,7 +55,7 @@ public:
                         int max_core_ipc,
                         bool human_readable,
                         bool test_output,
-                        bool fireperf);
+                        bool fireperf, bool custom_trace, unsigned int custom_trace_width);
   void write_header(FILE *file);
 
 private:
@@ -97,6 +97,8 @@ private:
   std::string tracefilename;
   std::string dwarf_file_name;
   bool fireperf = false;
+  bool custom_trace = false;
+  unsigned int custom_trace_width = 1;
 
   size_t process_tokens(int num_beats, int minium_batch_beats);
   int beats_available_stable();
