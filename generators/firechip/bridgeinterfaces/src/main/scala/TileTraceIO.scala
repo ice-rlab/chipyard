@@ -11,6 +11,7 @@ case class TraceBundleWidths(
   wdataWidth: Option[Int],
   causeWidth: Int,
   tvalWidth: Int,
+  customWidth : Option[Int]
 )
 
 class TracedInstruction(traceBundleWidths: TraceBundleWidths) extends Bundle {
@@ -28,6 +29,7 @@ class TracedInstruction(traceBundleWidths: TraceBundleWidths) extends Bundle {
 class TraceBundle(traceBundleWidths: TraceBundleWidths) extends Bundle {
   val retiredinsns = Vec(traceBundleWidths.retireWidth, new TracedInstruction(traceBundleWidths))
   val time = UInt(64.W)
+  val custom = traceBundleWidths.customWidth.map { w => UInt(w.W) }
 }
 
 class TileTraceIO(traceBundleWidths: TraceBundleWidths) extends Bundle {

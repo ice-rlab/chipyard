@@ -57,6 +57,8 @@ tracerv_t::tracerv_t(simif_t &sim,
   const std::string humanreadable_arg = "+trace-humanreadable";
   const std::string trace_output_format_arg = "+trace-output-format=";
   const std::string dwarf_file_arg = "+dwarf-file-name=";
+  const std::string custom_trace_arg = "+custom-trace";
+  const std::string custom_trace_width_arg = "+custom-trace-width=";
 
   for (auto &arg : args) {
     if (arg.find(tracefile_arg) == 0) {
@@ -101,6 +103,15 @@ tracerv_t::tracerv_t(simif_t &sim,
           const_cast<char *>(arg.c_str()) + dwarf_file_arg.length();
       this->dwarf_file_name = std::string(dwarf_file_name);
     }
+    if (arg.find(custom_trace_width_arg) == 0) {
+      char *str =
+          const_cast<char *>(arg.c_str()) + custom_trace_width_arg.length();
+      this->custom_trace_width = atol(str);
+    }
+    if (arg.find(custom_trace_arg) == 0) {
+      this->custom_trace = true;
+    }
+    
   }
 
   if (tracefilename) {
@@ -234,7 +245,9 @@ size_t tracerv_t::process_tokens(int num_beats, int minimum_batch_beats) {
               max_core_ipc,
               human_readable,
               test_output,
-              fireperf);
+              fireperf, 
+              custom_trace, 
+              custom_trace_width);
   }
   return bytes_received;
 }
@@ -247,9 +260,22 @@ void tracerv_t::serialize(
     const int max_core_ipc,
     const bool human_readable,
     const bool test_output,
-    const bool fireperf) {
+    const bool fireperf, const bool custom_trace, const unsigned int custom_trace_width) {
   const int max_consider = std::min(max_core_ipc, 7);
-  if (human_readable || test_output) {
+  if(custom_trace){
+    // for (int q = 0; q < 1 + max_consider; q++) {
+    //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
+    // }
+    for (size_t i = 0; i < (bytes_received / sizeof(uint64_t)); i += 8) {
+      // this stores as raw binary. stored as little endian.
+      // e.g. to get the same thing as the human readable above,
+      // flip all the bytes in each 512-bit line.
+      for (int q = 0; q < 1 + custom_trace_width; q++) {
+        fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
+      }
+    }
+  }
+  else if (human_readable || test_output) {
     for (size_t i = 0; i < (bytes_received / sizeof(uint64_t)); i += 8) {
       if (test_output) {
         fprintf(tracefile, "%016lx", OUTBUF[i + 7]);
@@ -304,6 +330,7 @@ void tracerv_t::serialize(
 
 void tracerv_t::write_header(FILE *file) {
   fputs(this->clock_info.file_header().c_str(), file);
+  fprintf(file, "Custom: %u, CustomWidth: %u\n", this->custom_trace, this->custom_trace_width);
 }
 
 void tracerv_t::tick() {

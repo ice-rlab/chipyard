@@ -34,9 +34,11 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     private val pcWidth   = traces.map(_.iaddr.getWidth).max
     private val insnWidth = traces.map(_.insn.getWidth).max
     println(s"TracerVBridge: Max {Iaddr, Insn} Widths = {$pcWidth, $insnWidth}")
+    println(s"TracerVBridge: Traces.size = ${traces.size}")
     require(pcWidth + 1 <= 64, "Instruction address + 1 bit (for valid) must fit in 64b (for SW-side of bridge)")
+    println(s"TracerVBridge: Custom Key = ${key.customWidth.getOrElse(0)}")
     val cycleCountWidth   = 64
-
+    
     // Set after trigger-dependent memory-mapped registers have been set, to
     // prevent spurious credits
     val initDone                 = genWORegInit(Wire(Bool()), "initDone", false.B)
@@ -63,7 +65,7 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     val hostTriggerPCEnd     = Cat(hostTriggerPCEndHigh, hostTriggerPCEndLow)
     val triggerPCEnd         = RegInit(0.U(pcWidth.W))
     triggerPCEnd := hostTriggerPCEnd
-
+    
     //Cycle count trigger
     val hostTriggerCycleCountWidthOffset = 64 - p(CtrlNastiKey).dataBits
     val hostTriggerCycleCountLowWidth    = if (hostTriggerCycleCountWidthOffset > 0) p(CtrlNastiKey).dataBits else 64
@@ -85,16 +87,16 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     val hostTriggerCycleCountEnd     = Cat(hostTriggerCycleCountEndHigh, hostTriggerCycleCountEndLow)
     val triggerCycleCountEnd         = RegInit(0.U(cycleCountWidth.W))
     triggerCycleCountEnd := hostTriggerCycleCountEnd
-
+    
     val trace_cycle_counter = RegInit(0.U(cycleCountWidth.W))
-
+    
     //target instruction type trigger (trigger through target software)
     //can configure the trigger instruction type externally though simulation driver
     val hostTriggerStartInst     = RegInit(0.U(insnWidth.W))
     val hostTriggerStartInstMask = RegInit(0.U(insnWidth.W))
     attach(hostTriggerStartInst, "hostTriggerStartInst", WriteOnly)
     attach(hostTriggerStartInstMask, "hostTriggerStartInstMask", WriteOnly)
-
+    
     val hostTriggerEndInst     = RegInit(0.U(insnWidth.W))
     val hostTriggerEndInstMask = RegInit(0.U(insnWidth.W))
     attach(hostTriggerEndInst, "hostTriggerEndInst", WriteOnly)
@@ -142,38 +144,44 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
       ),
     )
 
-    // the maximum width of a single arm, this is determined by the 512 bit width of a single beat
-    val armWidth = 7
 
-    // divide with a ceiling round, to get the total number of arms
-    val armCount = (traces.length + armWidth - 1) / armWidth
+    val custom: UInt = hPort.hBits.tiletrace.trace.custom.getOrElse(0.U)
+    val customWidth = custom.getWidth
+    println(s"TracerVBridge: Custom Width = ${customWidth}")
+    val dataBitsPerChunk = 64
+    val chunkCount = ((customWidth + dataBitsPerChunk - 1) / dataBitsPerChunk).max(1)
+    val paddedWidth = chunkCount * dataBitsPerChunk
+    val paddedCustom = custom.pad(paddedWidth)
+    
+    val customChunks: Seq[UInt] = (0 until chunkCount).map { i =>
+      val data = paddedCustom((i + 1) * dataBitsPerChunk - 1, i * dataBitsPerChunk)
+      data
+    }
+    println(s"TracerVBridge: customChunks.length = ${customChunks.length}")
 
-    // A Seq of Seq which represents each arm of the mux
-    val allTraceArms = traces.grouped(armWidth).toSeq
+    // Replacing original traces logic:
+    val armWidth = 7 // max elements per mux arm (fits 512 bits)
+    val armCount = (customChunks.length + armWidth - 1) / armWidth
+    val allCustomArms = customChunks.grouped(armWidth).toSeq
 
-    // an intermediate value used to build allStreamBits
-    val allUintTraces = allTraceArms.map(arm => arm.map((trace => Cat(trace.valid, trace.iaddr.pad(63)))).reverse)
-
-    // Literally each arm of the mux, these are directly the bits that get put into the bump
-    val allStreamBits =
-      allUintTraces.map(uarm => Cat(uarm :+ trace_cycle_counter.pad(64)).pad(BridgeStreamConstants.streamWidthBits))
-
-    // Number of bits to use for the counter, the +1 is required because the counter will count 1 past the number of arms
+    val allStreamBits = allCustomArms.map { chunkArm =>
+      Cat(chunkArm.reverse :+ trace_cycle_counter.pad(64))
+        .pad(BridgeStreamConstants.streamWidthBits)
+    }
+    
+    // val allStreamBits = Cat(customChunks.reverse :+ trace_cycle_counter.pad(64)).pad(BridgeStreamConstants.streamWidthBits)
+    
     val counterBits = log2Ceil(armCount + 1)
-
-    // This counter acts to select the mux arm
     val counter = RegInit(0.U(counterBits.W))
 
-    // The main mux where the input arms are different possible valid traces, and the output goes to streamEnq
-    val streamMux = MuxLookup(counter, allStreamBits(0), Seq.tabulate(armCount)(x => x.U -> allStreamBits(x)))
+    val streamMux = MuxLookup(counter, allStreamBits(0), 
+      Seq.tabulate(armCount)(x => x.U -> allStreamBits(x))
+    )
 
-    // a parallel set of arms to a parallel mux, true if any instructions in the arm are valid (OR reduction)
-    val anyValid = allTraceArms.map(arm => arm.map(trace => trace.valid).reduce((a, b) => (a | b)))
-
-    // all of the valids of the larger indexed arms are OR reduced
-    val anyValidRemain    =
-      Seq.tabulate(armCount)(idx => (idx until armCount).map(x => anyValid(x)).reduce((a, b) => (a | b)))
-    val anyValidRemainMux = MuxLookup(counter, false.B, Seq.tabulate(armCount)(x => x.U -> anyValidRemain(x)))
+    val anyValidRemain = Seq.fill(armCount)(true.B) // If you want actual validity tracking, update this later
+    val anyValidRemainMux = MuxLookup(counter, false.B, 
+      Seq.tabulate(armCount)(x => x.U -> anyValidRemain(x))
+    )
 
     streamEnq.bits := streamMux
 
@@ -184,7 +192,6 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     val do_enq_helper  = DecoupledHelper((Seq(maybeEnq, traceEnable) ++ commonPredicates):_*)
     val do_fire_helper = DecoupledHelper((maybeFire +: commonPredicates):_*)
 
-    // Note, if we dequeue a token that wins out over the increment below
     when(do_fire_helper.fire()) {
       counter := 0.U
     }.elsewhen(do_enq_helper.fire()) {
@@ -194,7 +201,6 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     streamEnq.valid     := do_enq_helper.fire(streamEnq.ready, trigger)
     hPort.toHost.hReady := do_fire_helper.fire(hPort.toHost.hValid)
 
-    // Output token (back to hub model) handling.
     val triggerReg = RegEnable(trigger, false.B, do_fire_helper.fire())
     hPort.hBits.triggerDebit  := !trigger && triggerReg
     hPort.hBits.triggerCredit := trigger && !triggerReg
@@ -204,6 +210,69 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
     when(hPort.toHost.fire) {
       trace_cycle_counter := trace_cycle_counter + 1.U
     }
+
+    // // the maximum width of a single arm, this is determined by the 512 bit width of a single beat
+    // val armWidth = 7
+
+    // // divide with a ceiling round, to get the total number of arms
+    // val armCount = (traces.length + armWidth - 1) / armWidth
+
+    // // A Seq of Seq which represents each arm of the mux
+    // val allTraceArms = traces.grouped(armWidth).toSeq
+
+    // // an intermediate value used to build allStreamBits
+    // val allUintTraces = allTraceArms.map(arm => arm.map((trace => Cat(trace.valid, trace.iaddr.pad(63)))).reverse)
+
+    // // Literally each arm of the mux, these are directly the bits that get put into the bump
+    // val allStreamBits =
+    //   allUintTraces.map(uarm => Cat(uarm :+ trace_cycle_counter.pad(64)).pad(BridgeStreamConstants.streamWidthBits))
+
+    // // Number of bits to use for the counter, the +1 is required because the counter will count 1 past the number of arms
+    // val counterBits = log2Ceil(armCount + 1)
+
+    // // This counter acts to select the mux arm
+    // val counter = RegInit(0.U(counterBits.W))
+
+    // // The main mux where the input arms are different possible valid traces, and the output goes to streamEnq
+    // val streamMux = MuxLookup(counter, allStreamBits(0), Seq.tabulate(armCount)(x => x.U -> allStreamBits(x)))
+
+    // // a parallel set of arms to a parallel mux, true if any instructions in the arm are valid (OR reduction)
+    // val anyValid = allTraceArms.map(arm => arm.map(trace => trace.valid).reduce((a, b) => (a | b)))
+
+    // // all of the valids of the larger indexed arms are OR reduced
+    // val anyValidRemain    =
+    //   Seq.tabulate(armCount)(idx => (idx until armCount).map(x => anyValid(x)).reduce((a, b) => (a | b)))
+    // val anyValidRemainMux = MuxLookup(counter, false.B, Seq.tabulate(armCount)(x => x.U -> anyValidRemain(x)))
+
+    // streamEnq.bits := streamMux
+
+    // val maybeFire = !anyValidRemainMux || (counter === (armCount - 1).U)
+    // val maybeEnq  = anyValidRemainMux
+
+    // val commonPredicates = Seq(hPort.toHost.hValid, hPort.fromHost.hReady, streamEnq.ready, initDone)
+    // val do_enq_helper  = DecoupledHelper((Seq(maybeEnq, traceEnable) ++ commonPredicates):_*)
+    // val do_fire_helper = DecoupledHelper((maybeFire +: commonPredicates):_*)
+
+    // // Note, if we dequeue a token that wins out over the increment below
+    // when(do_fire_helper.fire()) {
+    //   counter := 0.U
+    // }.elsewhen(do_enq_helper.fire()) {
+    //   counter := counter + 1.U
+    // }
+
+    // streamEnq.valid     := do_enq_helper.fire(streamEnq.ready, trigger)
+    // hPort.toHost.hReady := do_fire_helper.fire(hPort.toHost.hValid)
+
+    // // Output token (back to hub model) handling.
+    // val triggerReg = RegEnable(trigger, false.B, do_fire_helper.fire())
+    // hPort.hBits.triggerDebit  := !trigger && triggerReg
+    // hPort.hBits.triggerCredit := trigger && !triggerReg
+
+    // hPort.fromHost.hValid := do_fire_helper.fire(hPort.fromHost.hReady)
+
+    // when(hPort.toHost.fire) {
+    //   trace_cycle_counter := trace_cycle_counter + 1.U
+    // }
 
     genCRFile()
 
@@ -216,7 +285,9 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
         Seq(
           UInt32(toHostStreamIdx),
           UInt32(toHostCPUQueueDepth),
-          UInt32(traces.size),
+          // UInt32(traces.size),
+          // UInt32(customWidth + 63 / 64),
+          UInt32(customChunks.length),
           Verbatim(clockDomainInfo.toC),
         ),
         hasStreams = true,

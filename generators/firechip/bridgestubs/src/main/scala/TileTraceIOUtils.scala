@@ -15,6 +15,7 @@ object ConvertTraceBundleWidths {
       wdataWidth = widths.wdata,
       causeWidth = widths.cause,
       tvalWidth = widths.tval,
+      customWidth = widths.custom
     )
   }
 }
@@ -35,6 +36,15 @@ object ConvertTileTraceIO {
       l.cause := r.cause
       l.tval := r.tval
     }
+    (ttw.trace.custom, tiletrace.trace.custom) match {
+      case (Some(dst), Some(src)) =>
+        dst := src.asUInt
+      case (Some(dst), None) =>
+        dst := 0.U  // Optional: default value
+      case (None, Some(src)) =>
+        println(s"Warning: dropping custom trace data ($src) due to no destination")
+      case (None, None) => // no-op
+  }
     ttw.trace.time := tiletrace.trace.time
     ttw
   }
