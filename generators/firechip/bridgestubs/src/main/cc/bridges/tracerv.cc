@@ -270,9 +270,13 @@ void tracerv_t::serialize(
       // this stores as raw binary. stored as little endian.
       // e.g. to get the same thing as the human readable above,
       // flip all the bytes in each 512-bit line.
-      for (int q = 0; q < 1 + custom_trace_width; q++) {
+      // for (int q = 0; q < 1 + custom_trace_width; q++) {
+      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
+      // }
+      for (int q = 0; q < 7; q++) {
         fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
       }
+      // fwrite(OUTBUF , 8 * sizeof(uint64_t), 1, tracefile);
     }
   }
   else if (human_readable || test_output) {

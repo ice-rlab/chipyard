@@ -157,6 +157,10 @@ class TracerVBridgeModule(key: TraceBundleWidths)(implicit p: Parameters)
       val data = paddedCustom((i + 1) * dataBitsPerChunk - 1, i * dataBitsPerChunk)
       data
     }
+    
+    // an intermediate value used to build allStreamBits
+    // val allUintTraces = allTraceArms.map(arm => arm.map((trace => Cat(trace.valid, trace.iaddr.pad(63)))).reverse)
+
     println(s"TracerVBridge: customChunks.length = ${customChunks.length}")
 
     // Replacing original traces logic:

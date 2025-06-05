@@ -20,9 +20,6 @@
 [submodule "generators/fft-generator"]
 	path = generators/fft-generator
 	url = https://github.com/ucb-bar/FFTGenerator.git
-[submodule "generators/gemmini"]
-	path = generators/gemmini
-	url = https://github.com/ucb-bar/gemmini.git
 [submodule "generators/hardfloat"]
 	path = generators/hardfloat
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
@@ -128,9 +125,6 @@
 [submodule "generators/rerocc"]
 	path = generators/rerocc
 	url = https://github.com/ucb-bar/rerocc.git
-[submodule "generators/compress-acc"]
-	path = generators/compress-acc
-	url = https://github.com/ucb-bar/compress-acc.git
 [submodule "generators/saturn"]
 	path = generators/saturn
 	url = https://github.com/ucb-bar/saturn-vectors.git
@@ -159,3 +153,9 @@
 	path = sims/firesim
 	url = git@github.com:ice-rlab/firesim.git
 	branch = perf_char
+[submodule "generators/compress-acc"]
+	path = generators/compress-acc
+	url = git@github.com:ice-rlab/compress-acc.git
+[submodule "generators/gemmini"]
+	path = generators/gemmini
+	url = git@github.com:ice-rlab/gemmini.git
