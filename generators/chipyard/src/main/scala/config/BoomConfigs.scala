@@ -190,7 +190,12 @@ class LargeBoomScalarCountersConfig extends Config(
 
 class LargeBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 64) ++
+  new chipyard.config.AbstractConfig)
+
+class LargeBoomAddWiresSmCacheConfig extends Config(
+  new boom.v3.common.WithNLargeBooms(1,
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 4) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomDistributedCountersConfig extends Config(
