@@ -145,105 +145,144 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
 
 class SmallBoomOneCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 1) ++
+    boom.v3.common.TopdownCSRMode.NONE, 1) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomTwoCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 2) ++
+    boom.v3.common.TopdownCSRMode.NONE, 2) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 2) ++
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 4) ++
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 6) ++
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 64) ++
-  new chipyard.config.AbstractConfig)
-
-class LargeBoomAddWiresSmCacheConfig extends Config(
-  new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 4) ++
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
-  new chipyard.config.AbstractConfig)
-
-class MegaBoomNPerf1Config extends Config(
-  new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 1) ++
-  new chipyard.config.AbstractConfig)
-
-class MegaBoomNPerf2Config extends Config(
-  new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 2) ++
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 8) ++
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29,
+    boom.v3.common.TopdownCaseStudy.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 10) ++
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29) ++
   new chipyard.config.AbstractConfig)
 
+// ---------------------
+// BOOM V3 Performance case study Configs
+// ---------------------
 
+// expensive event monitoring with scalar counters
+class MegaBoomScalarCountersBaseCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.BASE) ++
+  new chipyard.config.AbstractConfig)
+
+// expensive event monitoring with add wires
+class MegaBoomAddWiresBaseCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29,
+    boom.v3.common.TopdownCaseStudy.BASE) ++
+  new chipyard.config.AbstractConfig)
+
+// expensive event monitoring with distributed counters
+class MegaBoomDistributedCountersBaseCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.BASE) ++
+  new chipyard.config.AbstractConfig)
+
+// scalar counters monitoring of one lane
+class MegaBoomScalarCountersExtrapolateCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.EXTRAPOLATE) ++
+  new chipyard.config.AbstractConfig)
+
+// cheap event monitoring with scalar counters
+class MegaBoomScalarCountersCorrelatedCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.CORRELATED) ++
+  new chipyard.config.AbstractConfig)
+
+// cheap event monitoring with add wires
+class MegaBoomAddWiresCorrelatedCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.ADD_WIRES, 29,
+    boom.v3.common.TopdownCaseStudy.CORRELATED) ++
+  new chipyard.config.AbstractConfig)
+
+// cheap event monitoring with distributed counters
+class MegaBoomDistributedCountersCorrelatedCaseStudyConfig extends Config(
+  new boom.v3.common.WithNMegaBooms(1,
+    boom.v3.common.TopdownCSRMode.DISTRIBUTED_COUNTERS, 29,
+    boom.v3.common.TopdownCaseStudy.CORRELATED) ++
+  new chipyard.config.AbstractConfig)
 
 
 // // From Protoacc paper configs:
