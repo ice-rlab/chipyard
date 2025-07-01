@@ -145,7 +145,7 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
 
 class SmallBoomOneCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 1) ++
+    boom.v3.common.TopdownCSRMode.NONE, 1) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomTwoCountersConfig extends Config(
