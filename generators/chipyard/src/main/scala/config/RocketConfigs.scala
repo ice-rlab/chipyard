@@ -11,6 +11,11 @@ import freechips.rocketchip.subsystem.{InCluster}
 class RocketConfig extends Config(
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
+  
+// class RocketConfigBiggerCache extends Config(
+//   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
+//   // new freechips.rocketchip.subsystem.WithL1ICacheSets(128) ++ 
+//   new chipyard.config.AbstractConfig)
 
 class DualRocketConfig extends Config(
   new freechips.rocketchip.rocket.WithNHugeCores(2) ++
@@ -114,4 +119,12 @@ class FastRTLSimRocketConfig extends Config(
 class SV48RocketConfig extends Config(
   new freechips.rocketchip.rocket.WithSV48 ++
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++
+  new chipyard.config.AbstractConfig)
+
+
+
+// Case studies
+class RocketSmallCacheConfig extends Config(
+  new freechips.rocketchip.rocket.WithL1DCacheSets(32) ++ 
+  new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)

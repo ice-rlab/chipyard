@@ -216,6 +216,11 @@ void tracerv_t::init() {
            0ul,
            ULONG_MAX);
   }
+
+  if(custom_trace){
+    printf("Custom trace enabled with width: %u\n", custom_trace_width);
+  }
+
   write(mmio_addrs.initDone, true);
 }
 
@@ -226,6 +231,7 @@ size_t tracerv_t::process_tokens(int num_beats, int minimum_batch_beats) {
   page_aligned_sized_array(OUTBUF, this->stream_depth * STREAM_WIDTH_BYTES);
   auto bytes_received =
       pull(this->stream_idx, OUTBUF, maximum_batch_bytes, minimum_batch_bytes);
+
   // check that a tracefile exists (one is enough) since the manager
   // does not create a tracefile when trace_enable is disabled, but the
   // TracerV bridge still exists, and no tracefile is created by default.
@@ -263,20 +269,37 @@ void tracerv_t::serialize(
     const bool fireperf, const bool custom_trace, const unsigned int custom_trace_width) {
   const int max_consider = std::min(max_core_ipc, 7);
   if(custom_trace){
-    // for (int q = 0; q < 1 + max_consider; q++) {
-    //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
-    // }
     for (size_t i = 0; i < (bytes_received / sizeof(uint64_t)); i += 8) {
-      // this stores as raw binary. stored as little endian.
-      // e.g. to get the same thing as the human readable above,
-      // flip all the bytes in each 512-bit line.
-      // for (int q = 0; q < 1 + custom_trace_width; q++) {
+      // Not sure why this shift is necessary, but it is for now..
+      // auto byte_ptr = reinterpret_cast<const uint8_t*>(OUTBUF);
+      // for (int q = 1; q < 1 + custom_trace_width; q++) {
+      //   // Right shift OUTBUF by 2 bytes and write 16 bytes
+      //   fwrite(byte_ptr + ((i + q) * sizeof(uint64_t)) + 2, 1, 16, tracefile);
+      // }
+      // Debug driver: 
+      // for (int q = 0; q < 8; q++) {
+        // printf("0x%016lx\n", *((uint64_t *)(OUTBUF + (i + q))));
+      // }
+
+      // Dump the entire 512-bits sent from target-side
+      // for (int q = 0; q < 8; q++) {
       //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
       // }
-      for (int q = 0; q < 7; q++) {
+      
+      // // Write the first custom width + 1 bytes
+      // for (int q =0; q < custom_trace_width + 1; q++) {
+      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
+      // }
+
+      // Write the first custom width + 1 bytes
+      for (int q =custom_trace_width; q >= 0; q--) {
         fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
       }
-      // fwrite(OUTBUF , 8 * sizeof(uint64_t), 1, tracefile);
+
+      // Write the last bytes
+      // for (int q = 8 - custom_trace_width; q < 8; q++) {
+      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
+      // }
     }
   }
   else if (human_readable || test_output) {
@@ -333,6 +356,8 @@ void tracerv_t::serialize(
 }
 
 void tracerv_t::write_header(FILE *file) {
+  printf("Trace enabled: %s\n",
+         this->trace_enabled ? "true" : "false");
   fputs(this->clock_info.file_header().c_str(), file);
   fprintf(file, "Custom: %u, CustomWidth: %u\n", this->custom_trace, this->custom_trace_width);
 }

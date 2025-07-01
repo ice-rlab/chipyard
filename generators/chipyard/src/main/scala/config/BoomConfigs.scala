@@ -20,13 +20,13 @@ class LargeBoomV3Config extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
-class MegaBoomV3Config extends Config(
+class MegaBoomV3Config extends Config(      
   new boom.v3.common.WithNMegaBooms(1) ++                           // mega boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomV3Config extends Config(
-  new boom.v3.common.WithNGigaBooms(1) ++                           // giga boom config
+  new boom.v3.common.WithNGigaBooms(1) ++                     // giga boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
@@ -150,95 +150,132 @@ class SmallBoomOneCountersConfig extends Config(
 
 class SmallBoomTwoCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 2) ++
+    boom.v3.common.SuperscalarCSRMode.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
   new chipyard.config.AbstractConfig)
 
 class SmallBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNSmallBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 4) ++
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
   new chipyard.config.AbstractConfig)
 
 class MediumBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNMediumBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 6) ++
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
+  new chipyard.config.AbstractConfig)
+
+class LargeBoomScalarCountersMemWidthConfig extends Config(
+  new boom.v3.common.WithNLargeBoomsMemWidth(1,
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
   new chipyard.config.AbstractConfig)
 
 class LargeBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomNPerf1Config extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 1) ++
+    boom.v3.common.SuperscalarCSRMode.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomNPerf2Config extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.NONE, 2) ++
+    boom.v3.common.SuperscalarCSRMode.NONE) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 8) ++
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
   new chipyard.config.AbstractConfig)
 
 class MegaBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNMegaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomScalarCountersConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 10) ++
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomAddWiresConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2) ++
+    boom.v3.common.SuperscalarCSRMode.ADD_WIRES) ++
   new chipyard.config.AbstractConfig)
 
 class GigaBoomDistributedCountersConfig extends Config(
   new boom.v3.common.WithNGigaBooms(1,
-    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS, 2) ++
+    boom.v3.common.SuperscalarCSRMode.DISTRIBUTED_COUNTERS) ++
+  new chipyard.config.AbstractConfig)
+
+// ---------------------
+// BOOM V3 Trace characterization Configs
+// ---------------------
+
+
+class LargeBoomV3TraceConfig extends Config(
+  new boom.v3.common.WithNLargeBooms(1) ++                               // enable the traceio
   new chipyard.config.AbstractConfig)
 
 
+class LargeBoomScalarCountersSmallCacheConfig extends Config(
+  new freechips.rocketchip.rocket.WithL1DCacheSets(32) ++
+  new boom.v3.common.WithNLargeBooms(1,
+    boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS) ++
+  new chipyard.config.AbstractConfig)
+
+
+// class LargeBoomAddWiresSmCacheConfig extends Config(
+//   new boom.v3.common.WithNLargeBooms(1,
+//     boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 4) ++
+//   new chipyard.config.AbstractConfig)
+
+
+// class LargeBoomAddWiresSmCacheConfig extends Config(
+//   new boom.v3.common.WithNLargeBooms(1,
+//     boom.v3.common.SuperscalarCSRMode.ADD_WIRES, 2, 4) ++
+//   new chipyard.config.AbstractConfig)
+
+
+// class LargeBoomScalarCounterSmCacheConfig extends Config(
+//   new boom.v3.common.WithNLargeBooms(1,
+//     boom.v3.common.SuperscalarCSRMode.SCALAR_COUNTERS, 29, 4) ++
+//   new chipyard.config.AbstractConfig)
 
 
 // // From Protoacc paper configs:
