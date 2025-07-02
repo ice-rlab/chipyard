@@ -160,3 +160,6 @@
 	path = generators/gemmini
 	url = git@github.com:ice-rlab/gemmini.git
 	branch = perf_char
+[submodule "generators/protoacc"]
+	path = generators/protoacc
+	url = git@github.com:ice-rlab/protoacc.git
