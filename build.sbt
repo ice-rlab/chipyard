@@ -155,8 +155,7 @@ lazy val testchipip = (project in file("generators/testchipip"))
 
 lazy val chipyard = (project in file("generators/chipyard"))
   .dependsOn(testchipip, rocketchip, boom, rocketchip_blocks, rocketchip_inclusive_cache,
-    dsptools, rocket_dsp_utils,
-    gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
+    dsptools, protoacc, rocket_dsp_utils, gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
     constellation, mempress, barf, shuttle, caliptra_aes, rerocc,
     compressacc, saturn, ara, firrtl2_bridge, vexiiriscv)
   .settings(libraryDependencies ++= rocketLibDeps.value)
@@ -169,6 +168,11 @@ lazy val chipyard = (project in file("generators/chipyard"))
   .settings(Compile / unmanagedSourceDirectories += file("tools/stage/src/main/scala"))
 
 lazy val compressacc = (project in file("generators/compress-acc"))
+  .dependsOn(rocketchip)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(commonSettings)
+
+lazy val protoacc = (project in file("generators/protoacc-acc"))
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
@@ -243,6 +247,8 @@ lazy val sodor = (project in file("generators/riscv-sodor"))
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
 
+
+
 lazy val gemmini = freshProject("gemmini", file("generators/gemmini"))
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
@@ -267,7 +273,6 @@ lazy val rocc_acc_utils = (project in file("generators/rocc-acc-utils"))
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
-
 lazy val tapeout = (project in file("./tools/tapeout/"))
   .settings(chisel3Settings) // stuck on chisel3 and SFC
   .settings(commonSettings)
