@@ -155,7 +155,7 @@ lazy val testchipip = (project in file("generators/testchipip"))
 
 lazy val chipyard = (project in file("generators/chipyard"))
   .dependsOn(testchipip, rocketchip, boom, rocketchip_blocks, rocketchip_inclusive_cache,
-    dsptools, protoacc, rocket_dsp_utils, gemmini, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
+    dsptools, rocket_dsp_utils, gemmini, protoacc, icenet, tracegen, cva6, nvdla, sodor, ibex, fft_generator,
     constellation, mempress, barf, shuttle, caliptra_aes, rerocc,
     compressacc, saturn, ara, firrtl2_bridge, vexiiriscv)
   .settings(libraryDependencies ++= rocketLibDeps.value)
@@ -172,7 +172,7 @@ lazy val compressacc = (project in file("generators/compress-acc"))
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
 
-lazy val protoacc = (project in file("generators/protoacc-acc"))
+lazy val protoacc = (project in file("generators/protoacc"))
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
