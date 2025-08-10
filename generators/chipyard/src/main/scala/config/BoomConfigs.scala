@@ -138,6 +138,40 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+// ---------------------
+// BOOM V3 Protobuf Configs
+// ---------------------
+
+class ProtoMegaBoomBaseConfigNoAccel extends Config(
+  new chipyard.config.WithL2TLBs(1024) ++
+  new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
+  new boom.v3.common.WithNMegaBooms(1) ++
+  new chipyard.config.WithBootROM ++
+  new chipyard.config.AbstractConfig)
+
+class ProtoMegaBoomBaseConfigNoAccelOg extends Config(
+  new chipyard.harness.WithUARTAdapter ++
+  new chipyard.harness.WithTieOffInterrupts ++
+  new chipyard.harness.WithBlackBoxSimMem ++
+  new chipyard.config.WithUART ++
+  new chipyard.config.WithL2TLBs(1024) ++
+  new freechips.rocketchip.subsystem.WithNoMMIOPort ++
+  new freechips.rocketchip.subsystem.WithNoSlavePort ++
+  new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
+  new freechips.rocketchip.subsystem.WithNExtTopInterrupts(0) ++
+  new boom.v3.common.WithBoomCommitLogPrintf ++
+  new boom.v3.common.WithNMegaBooms(1) ++
+  new chipyard.config.WithBootROM ++
+  new chipyard.config.AbstractConfig)
+
+
+class ProtoSerMegaBoomConfig extends Config(
+  new protoacc.WithProtoAccelSerOnly ++
+  new ProtoMegaBoomBaseConfigNoAccel)
+
+class ProtoDeserMegaBoomConfig extends Config(
+  new protoacc.WithProtoAccelDeserOnly ++
+  new ProtoMegaBoomBaseConfigNoAccel)
 
 // ---------------------
 // BOOM V3 Performance characterization Configs
@@ -250,52 +284,7 @@ class LargeBoomV3TraceConfig extends Config(
 
 class LargeBoomScalarCountersSmallCacheConfig extends Config(
   new freechips.rocketchip.rocket.WithL1DCacheSets(32) ++
-  new boom.v3.common.WithNLargeBooms(1,
-    boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS) ++
+  new boom.v3.common.WithNLargeBooms(1) ++
   new chipyard.config.AbstractConfig)
 
-
-// class LargeBoomAddWiresSmCacheConfig extends Config(
-//   new boom.v3.common.WithNLargeBooms(1,
-//     boom.v3.common.TopdownCSRMode.ADD_WIRES, 2, 4) ++
-//   new chipyard.config.AbstractConfig)
-
-
-// class LargeBoomAddWiresSmCacheConfig extends Config(
-//   new boom.v3.common.WithNLargeBooms(1,
-//     boom.v3.common.TopdownCSRMode.ADD_WIRES, 2, 4) ++
-//   new chipyard.config.AbstractConfig)
-
-
-// class LargeBoomScalarCounterSmCacheConfig extends Config(
-//   new boom.v3.common.WithNLargeBooms(1,
-//     boom.v3.common.TopdownCSRMode.SCALAR_COUNTERS, 29, 4) ++
-//   new chipyard.config.AbstractConfig)
-
-
-// // From Protoacc paper configs:
-// class ProtoMegaBoomBaseConfigNoAccel extends Config(
-  // new chipyard.harness.WithUARTAdapter ++
-  // new chipyard.harness.WithTieOffInterrupts ++
-  // new chipyard.harness.WithBlackBoxSimMem ++
-  // new chipyard.harness.WithTiedOffDebug ++
-  // new chipyard.harness.WithSimSerial ++
-  // new testchipip.WithTSI ++
-  // new chipyard.config.WithBootROM ++
-  // new chipyard.config.WithUART ++
-  // new chipyard.config.WithL2TLBs(1024) ++
-  // new freechips.rocketchip.subsystem.WithNoMMIOPort ++
-  // new freechips.rocketchip.subsystem.WithNoSlavePort ++
-  // new freechips.rocketchip.subsystem.WithInclusiveCache(nBanks=8, nWays=16, capacityKB=2048) ++
-  // new WithExtMemIdBits(7) ++
-  // new freechips.rocketchip.subsystem.WithNMemoryChannels(4) ++
-  // new freechips.rocketchip.subsystem.WithNExtTopInterrupts(0) ++
-  // new boom.common.WithBoomCommitLogPrintf ++
-  // new boom.common.WithMegaBooms ++                              // mega boom config
-  // new boom.common.WithNBoomCores(1) ++
-  // new freechips.rocketchip.subsystem.WithCoherentBusTopology ++
-  // new freechips.rocketchip.system.BaseConfig)
-
-// class ProtoSerMegaBoomConfig extends Config(
-//   new protoacc.WithProtoAccelSerOnly ++
 //   new ProtoMegaBoomBaseConfigNoAccel)
