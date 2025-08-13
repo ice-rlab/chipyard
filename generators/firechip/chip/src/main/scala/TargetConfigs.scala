@@ -370,6 +370,17 @@ class FireSimLargeBoomSV39CospikeConfig extends Config(
   new chipyard.LargeBoomV3Config)
 
 
+class FireSimProtoSerMegaBoomConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.ProtoSerMegaBoomConfig)
+
+class FireSimProtoDeserMegaBoomConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.ProtoDeserMegaBoomConfig)
 
 //**********************************************************************************
 //* Boom with Performance Counters Configs
