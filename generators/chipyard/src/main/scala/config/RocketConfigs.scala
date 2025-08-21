@@ -9,6 +9,7 @@ import freechips.rocketchip.subsystem.{InCluster}
 // --------------
 
 class RocketConfig extends Config(
+  new chipyard.config.WithNPerfCounters(29) ++ // 29 performance counters as default for perf char repo
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
   
@@ -133,6 +134,7 @@ class AsyncResetRocketConfig extends Config(
 
 // Case studies
 class RocketSmallCacheConfig extends Config(
+  new chipyard.config.WithNPerfCounters(29) ++ // 29 performance counters as default for perf char repo
   new freechips.rocketchip.rocket.WithL1DCacheSets(32) ++ 
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
