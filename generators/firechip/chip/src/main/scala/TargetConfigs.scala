@@ -214,6 +214,11 @@ class FireSimRocketConfig extends Config(
   new WithFireSimConfigTweaks ++
   new chipyard.RocketConfig)
 
+class FireSimRocketSmallCacheConfig extends Config(
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.RocketSmallCacheConfig)
+
   class FireSimRocketConfigGemini extends Config(
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
@@ -221,6 +226,10 @@ class FireSimRocketConfig extends Config(
 // DOC include end: firesimconfig
 
 class FireSimRocket1GiBDRAMConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new FireSimRocketConfig)
+  
+class FireSimRocketSmallCache1GiBDRAMConfig extends Config(
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
   new FireSimRocketConfig)
 
@@ -374,26 +383,47 @@ class FireSimLargeBoomSV39CospikeConfig extends Config(
 //**********************************************************************************
 //* Boom with Performance Counters Configs
 //*********************************************************************************/
-class FireSimLarge1GiBDRAMBoomWithLargeScalarCountersConfig extends Config(
-  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+// ---- LargeBoomScalarCounters ----
+class FireSimLargeBoomScalarCounters1GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomScalarCountersConfig)
+  new chipyard.LargeBoomScalarCountersConfig
+)
 
-class FireSimLarge1GiBDRAMBoomWithLargeAddWiresConfig extends Config(
-  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+class FireSimLargeBoomScalarCounters4GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(4L << 30) ++
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomAddWiresConfig)
+  new chipyard.LargeBoomScalarCountersConfig
+)
 
-class FireSimLarge1GiBDRAMBoomWithLargeDistributedCountersConfig extends Config(
-  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+// ---- LargeBoomAddWires ----
+class FireSimLargeBoomAddWires1GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomAddWiresConfig)
+  new chipyard.LargeBoomAddWiresConfig
+)
 
-class FireSimLarge1GiBDRAMBoomConfig extends Config(
-  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+class FireSimLargeBoomAddWires4GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(4L << 30) ++
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomV3Config)
+  new chipyard.LargeBoomAddWiresConfig
+)
+
+// ---- LargeBoomDistributedCounters ----
+class FireSimLargeBoomDistributedCounters1GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.LargeBoomDistributedCountersConfig
+)
+
+class FireSimLargeBoomDistributedCounters4GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(4L << 30) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.LargeBoomDistributedCountersConfig
+)
