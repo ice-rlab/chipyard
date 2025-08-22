@@ -141,14 +141,6 @@
 	path = generators/vexiiriscv
 	url = https://github.com/ucb-bar/vexiiriscv-tile.git
 # Updated submodules:
-[submodule "generators/boom"]
-	path = generators/boom
-	url = git@github.com:ice-rlab/riscv-boom.git
-	branch = perf_char
-[submodule "generators/rocket-chip"]
-	path = generators/rocket-chip
-	url = git@github.com:ice-rlab/rocket-chip.git
-	branch = perf_char
 [submodule "sims/firesim"]
 	path = sims/firesim
 	url = git@github.com:ice-rlab/firesim.git
@@ -163,3 +155,11 @@
 [submodule "generators/protoacc"]
 	path = generators/protoacc
 	url = git@github.com:ice-rlab/protoacc.git
+[submodule "generators/rocket-chip"]
+	path = generators/rocket-chip
+	url = git@github.com:ice-rlab/rocket-chip.git
+	branch = iiswc2025
+[submodule "generators/boom"]
+	path = generators/boom
+	url = git@github.com:ice-rlab/riscv-boom.git
+	branch = iiswc2025
