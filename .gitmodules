@@ -103,7 +103,8 @@
 	url = https://github.com/chipsalliance/cde.git
 [submodule "tools/circt"]
 	path = tools/circt
-	url = https://github.com/llvm/circt.git
+	url = git@github.com:ice-rlab/circt.git
+	branch = v13.0
 [submodule "tools/install-circt"]
 	path = tools/install-circt
 	url = https://github.com/circt/install-circt.git
@@ -163,3 +164,6 @@
 [submodule "generators/protoacc"]
 	path = generators/protoacc
 	url = git@github.com:ice-rlab/protoacc.git
+[submodule "tools/-b"]
+	path = tools/-b
+	url = git@github.com:ice-rlab/circt.git
