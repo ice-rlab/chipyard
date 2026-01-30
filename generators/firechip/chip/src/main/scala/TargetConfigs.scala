@@ -100,6 +100,7 @@ class WithFireSimDesignTweaks extends Config(
   new chipyard.config.WithNoUART() ++       // so we overwrite the default one
   // Optional: Adds IO to attach tracerV bridges
   new chipyard.config.WithTraceIO ++
+  new chipyard.config.WithTraceDoctorIO ++
   // Optional: Request 16 GiB of target-DRAM by default (can safely request up to 64 GiB on F1)
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 16L) ++
   // Optional: Removing this will require using an initramfs under linux
@@ -212,7 +213,8 @@ class WithFireSimTestChipConfigTweaks extends Config(
 class FireSimRocketConfig extends Config(
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
-  new chipyard.RocketConfig)
+  //new chipyard.RocketConfig)
+  new chipyard.TraceDoctorRocketConfig)
 
 class FireSimRocketSmallCacheConfig extends Config(
   new WithDefaultFireSimBridges ++
@@ -228,7 +230,7 @@ class FireSimRocketSmallCacheConfig extends Config(
 class FireSimRocket1GiBDRAMConfig extends Config(
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
   new FireSimRocketConfig)
-  
+
 class FireSimRocketSmallCache1GiBDRAMConfig extends Config(
   new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
   new FireSimRocketConfig)

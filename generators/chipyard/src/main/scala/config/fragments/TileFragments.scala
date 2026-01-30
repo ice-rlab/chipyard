@@ -14,6 +14,8 @@ import vexiiriscv.{VexiiRiscvTileAttachParams}
 import testchipip.cosim.{TracePortKey, TracePortParams}
 import barf.{TilePrefetchingMasterPortParams}
 
+import testchipip.{TraceDoctorPortKey, TraceDoctorPortParams}
+
 class WithL2TLBs(entries: Int) extends Config((site, here, up) => {
   case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
     case tp: RocketTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
@@ -57,8 +59,10 @@ class WithTraceDoctorIO(traceWidth: Int = 512) extends Config((site, here, up) =
   case TilesLocated(InSubsystem) => up(TilesLocated(InSubsystem), site) map {
     case tp: RocketTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
       core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
-    case tp: BoomTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
-      core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
+    //case tp: boom.v3.common.BoomTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+    //  core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
+    //case tp: boom.v4.common.BoomTileAttachParams => tp.copy(tileParams = tp.tileParams.copy(
+    //  core = tp.tileParams.core.copy(setTraceDoctorWidth = traceWidth)))
     case other => other
   }
   case TraceDoctorPortKey => Some(TraceDoctorPortParams())
