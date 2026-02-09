@@ -40,6 +40,12 @@ public:
   tracedoctor_worker(std::string const &name, std::vector<std::string> const &args, struct traceInfo const &info, int const requiredFiles = TDWORKER_NO_FILES);
   virtual void tick(char const * const data, unsigned int tokens);
   virtual ~tracedoctor_worker();
+
+  void logNameMap(std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList);
+
+private:
+  bool nameMapFileRequested;
+  std::string nameMapFile;
 };
 
 class tracedoctor_dummy : public tracedoctor_worker {

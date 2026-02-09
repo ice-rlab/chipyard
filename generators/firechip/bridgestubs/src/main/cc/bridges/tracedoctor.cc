@@ -20,12 +20,14 @@ char tracedoctor_t::KIND;
 tracedoctor_t::tracedoctor_t(simif_t &sim,
                 StreamEngine &engine,
                 const TRACEDOCTORBRIDGEMODULE_struct &mmio_addrs,
-                int stream_idx,
+                int tracerno,
                 const std::vector<std::string> &args,
-                int tokenWidth,
+                int stream_idx,
                 int stream_depth,
+                int tokenWidth,
                 unsigned int traceWidth,
-                const ClockInfo &clock_info) :
+                const ClockInfo &clock_info,
+                std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList) :
       streaming_bridge_driver_t(sim, engine, &KIND),
       mmioAddrs(mmio_addrs),
       streamIdx(stream_idx), streamDepth(stream_depth),
@@ -47,14 +49,7 @@ tracedoctor_t::tracedoctor_t(simif_t &sim,
   std::string tracebuffers_arg = std::string("+tracedoctor-buffers") + suffix;
   std::string traceworker_arg  = std::string("+tracedoctor-worker") + suffix;
 
-  fprintf(stdout, "Tracedoctor args list\n");
   for (auto &arg: args) {
-    fprintf(stdout, "Tracedoctor argument: %s\n", arg);
-  }
-
-  fprintf(stdout, "Tracedoctor tracer args\n");
-  for (auto &arg: args) {
-    fprintf(stdout, "Tracedoctor argument: %s\n", arg);
     if (arg.find(tracetrigger_arg) == 0) {
       std::string const sarg = arg.substr(tracetrigger_arg.length());
       if (sarg.compare("none") == 0) {
@@ -80,9 +75,7 @@ tracedoctor_t::tracedoctor_t(simif_t &sim,
     }
   }
 
-  fprintf(stdout, "Tracedoctor worker args\n");
   for (auto &arg: args) {
-    fprintf(stdout, "Tracedoctor argument: %s\n", arg);
     if (arg.find(traceworker_arg) == 0) {
       auto workerargs = strSplit(std::string(arg.c_str() + traceworker_arg.length()), ",");
       std::string workername;
@@ -108,6 +101,7 @@ tracedoctor_t::tracedoctor_t(simif_t &sim,
 
       auto worker = std::unique_ptr<struct protectedWorker>(new protectedWorker());
       worker->worker = reg->second(workerargs, info);
+      worker->worker->logNameMap(fieldList);
       workers.push_back(std::move(worker));
     }
   }

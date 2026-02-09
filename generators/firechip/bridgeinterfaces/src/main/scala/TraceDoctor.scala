@@ -4,26 +4,32 @@ package firechip.bridgeinterfaces
 
 import chisel3._
 
-class TraceDoctorBundle(val traceWidth: Int) extends Bundle {
-  val valid = Bool()
-  val bits = Vec(traceWidth, Bool())
-  val tracerVTrigger = Bool()
+case class TraceDoctorEventMetadata(
+  portName:    String,
+  label:       String,
+  description: String,
+  width:       Int,
+)
+
+object TraceDoctorEventMetadata {
+  val localCycleCount =
+    TraceDoctorEventMetadata("N/A", "local_cycle", "Clock cycles elapsed in the local domain.", 1)
 }
 
-//class TileTraceDoctorIO(val traceWidth: Int) extends Bundle {
-//  val clock = Clock()
-//  val reset = Bool()
-//  val valid = Bool()
-//  val bits = Vec(traceWidth, Bool())
-//  val tracerVTrigger = Bool()
-//  //val trace = new TraceDoctorBundle(traceWidth)
-//}
+case class TraceDoctorKey(traceWidth: Int, eventMetadata: Seq[TraceDoctorEventMetadata], triggerName: String, resetPortName: String)
 
-case class TraceDoctorKey(traceWidth: Int)
-
-class TraceDoctorTargetIO(val traceWidth : Int) extends Bundle {
-  val clock = Input(Clock())
-  val reset = Input(Bool())
-  val trace = Input(new TraceDoctorBundle(traceWidth))
-  val tracerVTrigger = Input(Bool())
+class TraceDoctorTargetIO(
+  val traceWidth: Int,
+  eventMetadata: Seq[TraceDoctorEventMetadata],
+  triggerName:   String,
+  resetPortName: String,
+) extends Record {
+  val triggerEnable    = Input(Bool())
+  val underGlobalReset = Input(Bool())
+  val events           = eventMetadata.map(e => e.portName -> Input(UInt(e.width.W)))
+  val elements         = collection.immutable.ListMap(
+    ((triggerName, triggerEnable) +:
+      (resetPortName, underGlobalReset) +:
+      events): _*
+  )
 }

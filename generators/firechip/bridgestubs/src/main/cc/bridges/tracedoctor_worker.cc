@@ -26,7 +26,7 @@ std::vector<std::string> strSplit(std::string const &str, std::string const &sep
   return arr;
 }
 
-tracedoctor_worker::tracedoctor_worker(std::string const &name, std::vector<std::string> const &args, struct traceInfo const &info, int const requiredFiles) : name(name), tracerName(name + "@" + std::to_string(info.tracerId)), info(info) {
+tracedoctor_worker::tracedoctor_worker(std::string const &name, std::vector<std::string> const &args, struct traceInfo const &info, int const requiredFiles) : name(name), tracerName(name + "@" + std::to_string(info.tracerId)), info(info), nameMapFileRequested(false) {
   fprintf(stdout, "Tracedoctor logger constructor\n");
   if (requiredFiles != TDWORKER_NO_FILES) {
     unsigned int localRequiredFiles = requiredFiles;
@@ -37,10 +37,15 @@ tracedoctor_worker::tracedoctor_worker(std::string const &name, std::vector<std:
     std::vector<std::string> filesToOpen;
 
     for (auto &a: args) {
+      fprintf(stdout, "arg is %s\n", a.c_str());
       std::vector<std::string> c = strSplit(a, ":");
       if (c[0].compare("file") == 0 && c.size() > 1 && localRequiredFiles > 0) {
         filesToOpen.push_back(c[1]);
         localRequiredFiles--;
+      } else if (c[0].compare("nameMapFile") == 0 && c.size() > 1) {
+        fprintf(stdout, "logNameMap requested\n");
+        nameMapFileRequested = true;
+        nameMapFile = c[1];
       } else if (c[0].compare("compressionThreads") == 0 && c.size() > 1) {
         compressionThreads = std::stoul(c[1], nullptr, 0);
       } else if (c[0].compare("compressionLevel") == 0 && c.size() > 1) {
@@ -58,6 +63,24 @@ tracedoctor_worker::tracedoctor_worker(std::string const &name, std::vector<std:
       openFile(a, compressionCmd, compressionLevel, compressionThreads);
     }
   }
+}
+
+void tracedoctor_worker::logNameMap(std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList) {
+    fprintf(stdout, "logNameMap invoked\n");
+    if (!nameMapFileRequested) {
+        fprintf(stdout, "logNameMap has nothing to which to write\n");
+        return;
+    }
+    fprintf(stdout, "logNameMap writing to %s\n", nameMapFile.c_str());
+
+    FILE *fileDescriptor = fopen(nameMapFile.c_str(), "w");
+
+    fprintf(fileDescriptor, "Signal,startBit,endBit\n");
+    for (auto &t : fieldList) {
+        fprintf(fileDescriptor, "%s,%d,%d\n", std::get<0>(t).c_str(), std::get<1>(t), std::get<2>(t));
+    }
+
+    fclose(fileDescriptor);
 }
 
 void tracedoctor_worker::tick(char const * const data, unsigned int tokens) {

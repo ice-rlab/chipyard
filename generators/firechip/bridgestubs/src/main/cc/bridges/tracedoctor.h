@@ -87,12 +87,14 @@ public:
   tracedoctor_t(simif_t &sim,
                 StreamEngine &engine,
                 const TRACEDOCTORBRIDGEMODULE_struct &mmio_addrs,
-                int stream_idx,
+                int tracerno,
                 const std::vector<std::string> &args,
-                int tokenWidth,
+                int stream_idx,
                 int stream_depth,
+                int tokenWidth,
                 unsigned int traceWidth,
-                const ClockInfo &clock_info);
+                const ClockInfo &clock_info,
+                std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList);
   ~tracedoctor_t();
 
   void init();
