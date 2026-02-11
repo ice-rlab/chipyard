@@ -13,12 +13,6 @@ class RocketConfig extends Config(
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
 
-class TraceDoctorRocketConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++ // 29 performance counters as default for perf char repo
-  new freechips.rocketchip.rocket.WithTraceDoctor(64) ++
-  new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
-  new chipyard.config.AbstractConfig)
-
 // class RocketConfigBiggerCache extends Config(
 //   new freechips.rocketchip.rocket.WithNHugeCores(1) ++         // single rocket-core
 //   // new freechips.rocketchip.subsystem.WithL1ICacheSets(128) ++
