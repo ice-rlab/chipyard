@@ -43,8 +43,6 @@ import chipyard.example.{CanHavePeripheryGCD}
 
 import scala.reflect.{ClassTag}
 
-import testchipip.{CanHaveTraceDoctorIO, TraceDoctorOutputTop}
-
 object IOBinderTypes {
   type IOBinderTuple = (Seq[Port[_]], Seq[IOCell])
   type IOBinderFunction = (Boolean, => Any) => ModuleValue[IOBinderTuple]
@@ -516,17 +514,6 @@ class WithTraceIOPunchthrough extends OverrideLazyIOBinder({
         mem0_size = p(ExtMem).map(_.master.size).getOrElse(BigInt(0)),
       )
       TracePort(() => trace, cfg)
-    }
-    (ports.toSeq, Nil)
-  }
-})
-
-class WithTraceDoctorIOPunchthrough extends OverrideIOBinder({
-  (system: CanHaveTraceDoctorIO) => {
-    val ports: Option[TraceDoctorPort] = system.traceDoctorIO.map { t =>
-      val trace = IO(DataMirror.internal.chiselTypeClone[TraceDoctorOutputTop](t)).suggestName("tracedoctor")
-      trace <> t
-      TraceDoctorPort(() => trace, trace.traceWidths)
     }
     (ports.toSeq, Nil)
   }
