@@ -185,25 +185,27 @@ else
 	echo "$(MFC_BASE_LOWERING_OPTIONS),disallowPackedArrays" > $@
 endif
 
-$(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(MFC_LOWERING_OPTIONS)
+$(SFC_MFC_TARGETS) &: $(FIRRTL_MLIR_FILE) $(FIRRTL_FILE_POST_CIRCT) $(ANNO_FILE) $(MFC_LOWERING_OPTIONS)
+	$(info >>> DOING SFC_LOWERING PASS $(CURDIR))
 	rm -rf $(GEN_COLLATERAL_DIR)
 	(set -o pipefail && firtool \
-		--format=fir \
+		--format=mlir \
 		--export-module-hierarchy \
 		--verify-each=true \
 		--warn-on-unprocessed-annotations \
 		--disable-annotation-classless \
+		--preserve-values=all \
 		--disable-annotation-unknown \
 		--mlir-timing \
 		--lowering-options=$(shell cat $(MFC_LOWERING_OPTIONS)) \
 		--repl-seq-mem \
 		--repl-seq-mem-file=$(MFC_SMEMS_CONF) \
-		--annotation-file=$(FINAL_ANNO_FILE) \
+		--annotation-file=$(ANNO_FILE) \
 		--split-verilog \
 		-o $(GEN_COLLATERAL_DIR) \
-		$(FIRRTL_FILE) |& tee $(FIRTOOL_LOG_FILE))
+		$(FIRRTL_MLIR_FILE) |& tee $(FIRTOOL_LOG_FILE))
 	$(SED) -i 's/.*/& /' $(MFC_SMEMS_CONF) # need trailing space for SFC macrocompiler
-	touch $(MFC_BB_MODS_FILELIST) # if there are no BB's then the file might not be generated, instead always generate it
+	touch $(MFC_BB_MODS_FILELIST) if there are no BB's then the file might not be generated, instead always generate it
 # DOC include end: FirrtlCompiler
 
 $(TOP_MODS_FILELIST) $(MODEL_MODS_FILELIST) $(ALL_MODS_FILELIST) $(BB_MODS_FILELIST) $(MFC_MODEL_HRCHY_JSON_UNIQUIFIED) &: $(MFC_MODEL_HRCHY_JSON) $(MFC_TOP_HRCHY_JSON) $(MFC_FILELIST) $(MFC_BB_MODS_FILELIST)

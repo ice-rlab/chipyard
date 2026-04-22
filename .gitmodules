@@ -104,7 +104,7 @@
 [submodule "tools/circt"]
 	path = tools/circt
 	url = git@github.com:ice-rlab/circt.git
-	branch = v13.0
+	branch = chipyard-integration
 [submodule "tools/install-circt"]
 	path = tools/install-circt
 	url = https://github.com/circt/install-circt.git

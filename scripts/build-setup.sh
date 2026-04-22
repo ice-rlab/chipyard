@@ -274,6 +274,11 @@ if run_step "6"; then
             set -e # Subshells un-set "set -e" so it must be re enabled
             source sourceme-manager.sh --skip-ssh-setup
             pushd sim
+
+            # Build our own custom FIRRTL here also
+            pushd firrtl
+            env SBT_OPTS=-Dsbt.ivy.home=$CYDIR/sims/firesim/sim/.ivy2  sbt '++ 2.13.10!' 'set version := "1.6.0-matt-SNAPSHOT"' publishLocal
+            popd
             # avoid directly building classpath s.t. target-injected files can be recompiled
             make sbt SBT_COMMAND="compile"
             popd
@@ -318,19 +323,14 @@ if run_step "10"; then
 	echo "Building CIRCT from source, and installing to $PREFIX"
 	$CYDIR/scripts/build-circt-from-source.sh --prefix $PREFIX
     else
-	echo "Downloading CIRCT from nightly build"
-
-	git submodule update --init $CYDIR/tools/install-circt &&
-	    $CYDIR/tools/install-circt/bin/download-release-or-nightly-circt.sh \
-		-f circt-full-static-linux-x64.tar.gz \
-		-i $PREFIX \
-		-v version-file \
-		-x $CYDIR/conda-reqs/circt.json \
-		-g $GITHUB_TOKEN
+	echo "Downloading CIRCT https://github.com/ice-rlab/circt/releases/"
+    # Download our custom CIRCT tools
+    wget https://github.com/ice-rlab/circt/releases/download/chipyard-integration/circt-bin.tar.gz circt-bin.tar.gz
+    tar -xvf circt-bin.tar.gz -C $CONDA_PREFIX/$TOOLCHAIN_TYPE/bin
+    rm -rf circt-bin.tar.gz
     fi
     exit_if_last_command_failed
 fi
-
 
 # do misc. cleanup for a "clean" git status
 if run_step "11"; then
