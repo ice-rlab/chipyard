@@ -72,9 +72,8 @@ class ZstdCompressorRocketConfig extends Config(
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++
   new chipyard.config.AbstractConfig)
 
-
-// class ProtoAccRocketConfig extends Config(
-//   new protoacc.WithProtoAccelSerOnly ++ 
-//   new freechips.rocketchip.rocket.WithNHugeCores(1) ++ 
-//   new chipyard.config.AbstractConfig
-// )
+class ProtoAccSerRocketConfig extends Config(
+  new protoacc.WithProtoAccelSerOnly ++ 
+  new freechips.rocketchip.rocket.WithNHugeCores(1) ++ 
+  new chipyard.config.AbstractConfig
+)
