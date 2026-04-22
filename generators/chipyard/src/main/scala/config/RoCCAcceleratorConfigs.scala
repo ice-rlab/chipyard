@@ -19,5 +19,9 @@ class ReRoCCTestConfig extends Config(
 class ProtoAccSerRocketConfig extends Config(
   new protoacc.WithProtoAccelSerOnly ++ 
   new freechips.rocketchip.rocket.WithNHugeCores(1) ++ 
-  new chipyard.config.AbstractConfig
-)
+  new chipyard.config.AbstractConfig)
+
+class SnappyCompressorRocketConfig extends Config(
+  new compressacc.WithSnappyComplete ++
+  new freechips.rocketchip.rocket.WithNHugeCores(1) ++
+  new chipyard.config.AbstractConfig)
