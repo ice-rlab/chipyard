@@ -57,8 +57,6 @@ tracerv_t::tracerv_t(simif_t &sim,
   const std::string humanreadable_arg = "+trace-humanreadable";
   const std::string trace_output_format_arg = "+trace-output-format=";
   const std::string dwarf_file_arg = "+dwarf-file-name=";
-  const std::string custom_trace_arg = "+custom-trace";
-  const std::string custom_trace_width_arg = "+custom-trace-width=";
 
   for (auto &arg : args) {
     if (arg.find(tracefile_arg) == 0) {
@@ -103,15 +101,6 @@ tracerv_t::tracerv_t(simif_t &sim,
           const_cast<char *>(arg.c_str()) + dwarf_file_arg.length();
       this->dwarf_file_name = std::string(dwarf_file_name);
     }
-    if (arg.find(custom_trace_width_arg) == 0) {
-      char *str =
-          const_cast<char *>(arg.c_str()) + custom_trace_width_arg.length();
-      this->custom_trace_width = atol(str);
-    }
-    if (arg.find(custom_trace_arg) == 0) {
-      this->custom_trace = true;
-    }
-    
   }
 
   if (tracefilename) {
@@ -216,11 +205,6 @@ void tracerv_t::init() {
            0ul,
            ULONG_MAX);
   }
-
-  if(custom_trace){
-    printf("Custom trace enabled with width: %u\n", custom_trace_width);
-  }
-
   write(mmio_addrs.initDone, true);
 }
 
@@ -231,7 +215,6 @@ size_t tracerv_t::process_tokens(int num_beats, int minimum_batch_beats) {
   page_aligned_sized_array(OUTBUF, this->stream_depth * STREAM_WIDTH_BYTES);
   auto bytes_received =
       pull(this->stream_idx, OUTBUF, maximum_batch_bytes, minimum_batch_bytes);
-
   // check that a tracefile exists (one is enough) since the manager
   // does not create a tracefile when trace_enable is disabled, but the
   // TracerV bridge still exists, and no tracefile is created by default.
@@ -251,9 +234,7 @@ size_t tracerv_t::process_tokens(int num_beats, int minimum_batch_beats) {
               max_core_ipc,
               human_readable,
               test_output,
-              fireperf, 
-              custom_trace, 
-              custom_trace_width);
+              fireperf);
   }
   return bytes_received;
 }
@@ -266,43 +247,9 @@ void tracerv_t::serialize(
     const int max_core_ipc,
     const bool human_readable,
     const bool test_output,
-    const bool fireperf, const bool custom_trace, const unsigned int custom_trace_width) {
+    const bool fireperf) {
   const int max_consider = std::min(max_core_ipc, 7);
-  if(custom_trace){
-    for (size_t i = 0; i < (bytes_received / sizeof(uint64_t)); i += 8) {
-      // Not sure why this shift is necessary, but it is for now..
-      // auto byte_ptr = reinterpret_cast<const uint8_t*>(OUTBUF);
-      // for (int q = 1; q < 1 + custom_trace_width; q++) {
-      //   // Right shift OUTBUF by 2 bytes and write 16 bytes
-      //   fwrite(byte_ptr + ((i + q) * sizeof(uint64_t)) + 2, 1, 16, tracefile);
-      // }
-      // Debug driver: 
-      // for (int q = 0; q < 8; q++) {
-        // printf("0x%016lx\n", *((uint64_t *)(OUTBUF + (i + q))));
-      // }
-
-      // Dump the entire 512-bits sent from target-side
-      // for (int q = 0; q < 8; q++) {
-      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
-      // }
-      
-      // // Write the first custom width + 1 bytes
-      // for (int q =0; q < custom_trace_width + 1; q++) {
-      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
-      // }
-
-      // Write the first custom width + 1 bytes
-      for (int q =custom_trace_width; q >= 0; q--) {
-        fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
-      }
-
-      // Write the last bytes
-      // for (int q = 8 - custom_trace_width; q < 8; q++) {
-      //   fwrite(OUTBUF + (i + q), sizeof(uint64_t), 1, tracefile);
-      // }
-    }
-  }
-  else if (human_readable || test_output) {
+  if (human_readable || test_output) {
     for (size_t i = 0; i < (bytes_received / sizeof(uint64_t)); i += 8) {
       if (test_output) {
         fprintf(tracefile, "%016lx", OUTBUF[i + 7]);
@@ -356,10 +303,7 @@ void tracerv_t::serialize(
 }
 
 void tracerv_t::write_header(FILE *file) {
-  printf("Trace enabled: %s\n",
-         this->trace_enabled ? "true" : "false");
   fputs(this->clock_info.file_header().c_str(), file);
-  fprintf(file, "Custom: %u, CustomWidth: %u\n", this->custom_trace, this->custom_trace_width);
 }
 
 void tracerv_t::tick() {
