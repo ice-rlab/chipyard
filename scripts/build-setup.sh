@@ -325,7 +325,7 @@ if run_step "10"; then
     else
 	echo "Downloading CIRCT https://github.com/ice-rlab/circt/releases/"
     # Download our custom CIRCT tools
-    wget https://github.com/ice-rlab/circt/releases/download/chipyard-integration/circt-bin.tar.gz circt-bin.tar.gz
+    wget https://github.com/ice-rlab/circt/releases/download/prebuilt/circt-bin.tar.gz circt-bin.tar.gz
     tar -xvf circt-bin.tar.gz -C $CONDA_PREFIX/$TOOLCHAIN_TYPE/bin
     rm -rf circt-bin.tar.gz
     fi
