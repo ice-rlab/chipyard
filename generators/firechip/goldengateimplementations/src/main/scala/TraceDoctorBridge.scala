@@ -62,7 +62,8 @@ class TraceDoctorBridgeModule(key: TraceDoctorKey)(implicit p: Parameters)
     attach(triggerSelector, "triggerSelector", WriteOnly)
 
     // Mask off ready samples when under reset
-    val traceValid = hPort.hBits.triggerEnable && !hPort.hBits.underGlobalReset
+    ///val traceValid = hPort.hBits.triggerEnable && !hPort.hBits.underGlobalReset
+    val traceValid = !hPort.hBits.underGlobalReset
 
     // Connect trigger
     val traceOut = initDone && traceEnable && traceValid
@@ -112,11 +113,14 @@ class TraceDoctorBridgeModule(key: TraceDoctorKey)(implicit p: Parameters)
     var bit = 0
     for (((_, field), metadata) <- hPort.hBits.events.zip(key.eventMetadata)) {
       val nextBit = bit + metadata.width - 1
-      fieldsSb.append(s"{${'\"'}${metadata.label}${'\"'}, ${bit}, ${nextBit}},\n")
+      if (bit != 0) {
+        fieldsSb.append(",\n")
+      }
+      fieldsSb.append(s"{${'\"'}${metadata.label}${'\"'}, ${bit}, ${nextBit}, ${'\"'}${metadata.description}${'\"'}}")
       bit = nextBit + 1
     }
-    fieldsSb.append(s"{${'\"'}null${'\"'},${traceWidth},${traceWidth}}\n")
-    fieldsSb.append("}")
+
+    fieldsSb.append("\n}")
 
     // enqueue in DMA stream
     streamEnq.valid := hPort.toHost.hValid && traceOut

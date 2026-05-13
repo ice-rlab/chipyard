@@ -65,22 +65,39 @@ tracedoctor_worker::tracedoctor_worker(std::string const &name, std::vector<std:
   }
 }
 
-void tracedoctor_worker::logNameMap(std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList) {
+void tracedoctor_worker::logNameMap(std::vector<field_log_t> const &fieldList) {
     fprintf(stdout, "logNameMap invoked\n");
     if (!nameMapFileRequested) {
-        fprintf(stdout, "logNameMap has nothing to which to write\n");
+        fprintf(stdout, "logNameMap has nothing to write\n");
         return;
     }
     fprintf(stdout, "logNameMap writing to %s\n", nameMapFile.c_str());
 
-    FILE *fileDescriptor = fopen(nameMapFile.c_str(), "w");
+    FILE *fileDescriptorCsv = fopen((nameMapFile + ".csv").c_str(), "w");
+    FILE *fileDescriptorHeader = fopen((nameMapFile + ".h").c_str(), "w");
 
-    fprintf(fileDescriptor, "Signal,startBit,endBit\n");
+    // write header preamble
+    fprintf(fileDescriptorHeader, "\n#ifndef __NAME_MAP_H__\n#define __NAME_MAP_H__\n\n");
+    fprintf(fileDescriptorHeader, "#include \"trace_cluster.h\"\n\n");
+    fprintf(fileDescriptorHeader, "#define N_POWER_MAP_ENTRIES %d\n\n", (int)fieldList.size());
+    fprintf(fileDescriptorHeader, "trace_cluster_t power_map[N_POWER_MAP_ENTRIES] = {");
+
+    char first = 1;
     for (auto &t : fieldList) {
-        fprintf(fileDescriptor, "%s,%d,%d\n", std::get<0>(t).c_str(), std::get<1>(t), std::get<2>(t));
+        fprintf(fileDescriptorCsv, "%s,%d,%d,%s\n", std::get<0>(t).c_str(), std::get<1>(t), std::get<2>(t), std::get<3>(t).c_str());
+        if (!first) {
+            fprintf(fileDescriptorHeader, ",\n");
+        }
+        fprintf(fileDescriptorHeader, "  {\"%s\",%d,%d,%s}", std::get<0>(t).c_str(), std::get<1>(t), std::get<2>(t), std::get<3>(t).c_str());
+        first = 0;
     }
 
-    fclose(fileDescriptor);
+    // write header postamlbe
+    fprintf(fileDescriptorHeader, "\n};\n\n");
+    fprintf(fileDescriptorHeader, "#endif // __NAME_MAP_H__\n");
+
+    fclose(fileDescriptorCsv);
+    fclose(fileDescriptorHeader);
 }
 
 void tracedoctor_worker::tick(char const * const data, unsigned int tokens) {

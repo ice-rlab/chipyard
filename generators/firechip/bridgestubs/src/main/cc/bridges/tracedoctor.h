@@ -15,6 +15,7 @@
 #include <chrono>
 #include <numeric>
 #include <functional>
+#include "tracedoctor_worker.h"
 #include "tracedoctor_register.h"
 
 struct TRACEDOCTORBRIDGEMODULE_struct {
@@ -94,7 +95,7 @@ public:
                 int tokenWidth,
                 unsigned int traceWidth,
                 const ClockInfo &clock_info,
-                std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList);
+                std::vector<field_log_t> const &fieldList);
   ~tracedoctor_t();
 
   void init();

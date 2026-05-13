@@ -27,7 +27,7 @@ tracedoctor_t::tracedoctor_t(simif_t &sim,
                 int tokenWidth,
                 unsigned int traceWidth,
                 const ClockInfo &clock_info,
-                std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList) :
+                std::vector<field_log_t> const &fieldList) :
       streaming_bridge_driver_t(sim, engine, &KIND),
       mmioAddrs(mmio_addrs),
       streamIdx(stream_idx), streamDepth(stream_depth),
@@ -272,6 +272,8 @@ void tracedoctor_t::work(unsigned int const threadId) {
 bool tracedoctor_t::process_tokens(unsigned int const tokens, bool flush) {
   if (tokens == 0 && !flush)
     return false;
+
+
 
   struct referencedBuffer *buffer = buffers[bufferIndex].get();
   unsigned int tokensReceived = 0;

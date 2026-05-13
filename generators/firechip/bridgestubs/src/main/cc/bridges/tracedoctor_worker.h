@@ -25,6 +25,8 @@ enum fileRegisterFields {freg_name = 0, freg_descriptor = 1, freg_file = 2};
 #define TDWORKER_NO_FILES   0
 #define TDWORKER_ANY_FILES -1
 
+typedef std::tuple<std::string, unsigned int, unsigned int, std::string> field_log_t;
+
 class tracedoctor_worker {
 protected:
   std::string const name;
@@ -41,7 +43,7 @@ public:
   virtual void tick(char const * const data, unsigned int tokens);
   virtual ~tracedoctor_worker();
 
-  void logNameMap(std::vector<std::tuple<std::string, unsigned int, unsigned int>> const &fieldList);
+  void logNameMap(std::vector<field_log_t> const &fieldList);
 
 private:
   bool nameMapFileRequested;
