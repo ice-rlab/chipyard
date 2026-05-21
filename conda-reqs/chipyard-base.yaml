@@ -20,6 +20,12 @@ dependencies:
     - conda-gcc-specs
     - binutils
 
+    # LLVM / Clang toolchain
+    - clang=18.1.7
+    - clangxx=18.1.7
+    - lld=18.1.7
+    - llvm-tools=18.1.7
+    
     # misc
     - autoconf
     - coreutils
