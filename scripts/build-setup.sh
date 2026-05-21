@@ -63,6 +63,7 @@ USE_UNPINNED_DEPS=false
 USE_LEAN_CONDA=false
 SKIP_LIST=()
 BUILD_CIRCT=false
+BUILD_LLVM=false
 GLOBAL_ENV_NAME=""
 GITHUB_TOKEN="null"
 
@@ -82,6 +83,8 @@ do
             SKIP_LIST+=(4 6 7 8 9) ;;
         --build-circt)
             BUILD_CIRCT=true ;;
+        --build-llvm)
+            BUILD_LLVM=true ;;
         --conda-env-name)
             shift
             GLOBAL_ENV_NAME=${1} ;;
@@ -320,14 +323,22 @@ if run_step "10"; then
     fi
 
     if [ "$BUILD_CIRCT" = true ] ; then
-	echo "Building CIRCT from source, and installing to $PREFIX"
-	$CYDIR/scripts/build-circt-from-source.sh --prefix $PREFIX
+        echo "Building CIRCT from source, and installing to $PREFIX"
+        $CYDIR/scripts/build-circt-from-source.sh --prefix $PREFIX
     else
-	echo "Downloading CIRCT https://github.com/ice-rlab/circt/releases/"
-    # Download our custom CIRCT tools
-    wget https://github.com/ice-rlab/circt/releases/download/prebuilt/circt-bin.tar.gz circt-bin.tar.gz
-    tar -xvf circt-bin.tar.gz -C $CONDA_PREFIX/$TOOLCHAIN_TYPE/bin
-    rm -rf circt-bin.tar.gz
+        echo "Downloading CIRCT https://github.com/ice-rlab/circt/releases/"
+        # Download our custom CIRCT tools
+        wget https://github.com/ice-rlab/circt/releases/download/prebuilt/circt-bin.tar.gz circt-bin.tar.gz
+        tar -xvf circt-bin.tar.gz -C $CONDA_PREFIX/$TOOLCHAIN_TYPE/bin
+        rm -rf circt-bin.tar.gz
+    fi
+    exit_if_last_command_failed
+
+    if [ "$BUILD_LLVM" = true ] ; then
+        echo "Building LLVM from source, and installing to $PREFIX"
+        $CYDIR/scripts/build-llvm-from-source.sh --prefix $PREFIX
+    else
+        echo "Skipping LLVM source build; using LLVM/Clang from conda environment"
     fi
     exit_if_last_command_failed
 fi
