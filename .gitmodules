@@ -167,3 +167,6 @@
 [submodule "tools/-b"]
 	path = tools/-b
 	url = git@github.com:ice-rlab/circt.git
+[submodule "tools/llvm-project"]
+	path = tools/llvm-project
+	url = git@github.com:llvm/llvm-project.git
