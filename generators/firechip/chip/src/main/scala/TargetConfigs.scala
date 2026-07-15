@@ -326,13 +326,18 @@ class FireSimLeanGemminiRocketMMIOOnlyConfig extends Config(
   new WithFireSimConfigTweaks ++
   new chipyard.LeanGemminiRocketConfig)
 
-class FireSimRadianceClusterSynConfig extends Config(
-  new chipyard.harness.WithHarnessBinderClockFreqMHz(500.0) ++
-  new chipyard.config.WithNoTraceIO ++
-  new WithDefaultFireSimBridges ++
-  new chipyard.config.WithRadBootROM ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.RadianceClusterSynConfig)
+// Commented out: chipyard.RadianceClusterSynConfig no longer exists in the
+// pinned radiance submodule (only RadianceClusterConfig does, which is a
+// materially different single-cluster design, not a compatible rename).
+// Broke compilation of the whole file; needs a real fix before Radiance
+// FireSim builds are usable again.
+// class FireSimRadianceClusterSynConfig extends Config(
+//   new chipyard.harness.WithHarnessBinderClockFreqMHz(500.0) ++
+//   new chipyard.config.WithNoTraceIO ++
+//   new WithDefaultFireSimBridges ++
+//   new chipyard.config.WithRadBootROM ++
+//   new WithFireSimConfigTweaks ++
+//   new chipyard.RadianceClusterSynConfig)
 
 class FireSimLargeBoomCospikeConfig extends Config(
   new WithCospikeBridge ++
