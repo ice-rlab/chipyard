@@ -140,100 +140,6 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
 
 
 // ---------------------
-// BOOM V3 Performance characterization Configs
-// ---------------------
-
-class SmallBoomScalarCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUScalarCounters ++
-  new boom.v3.common.WithNSmallBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class SmallBoomAddWiresConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUAddWires ++
-  new boom.v3.common.WithNSmallBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class SmallBoomDistributedCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUDistributedCounters ++
-  new boom.v3.common.WithNSmallBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MediumBoomScalarCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUScalarCounters ++
-  new boom.v3.common.WithNMediumBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MediumBoomAddWiresConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUAddWires ++
-  new boom.v3.common.WithNMediumBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MediumBoomDistributedCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUDistributedCounters ++
-  new boom.v3.common.WithNMediumBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class LargeBoomScalarCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUScalarCounters ++
-  new boom.v3.common.WithNLargeBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class LargeBoomAddWiresConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUAddWires ++
-  new boom.v3.common.WithNLargeBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class LargeBoomDistributedCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUDistributedCounters ++
-  new boom.v3.common.WithNLargeBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MegaBoomScalarCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUScalarCounters ++
-  new boom.v3.common.WithNMegaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MegaBoomAddWiresConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUAddWires ++
-  new boom.v3.common.WithNMegaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class MegaBoomDistributedCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUDistributedCounters ++
-  new boom.v3.common.WithNMegaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class GigaBoomScalarCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUScalarCounters ++
-  new boom.v3.common.WithNGigaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class GigaBoomAddWiresConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUAddWires ++
-  new boom.v3.common.WithNGigaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-class GigaBoomDistributedCountersConfig extends Config(
-  new chipyard.config.WithNPerfCounters(29) ++
-  new boom.v3.common.HasPMUDistributedCounters ++
-  new boom.v3.common.WithNGigaBooms(1) ++
-  new chipyard.config.AbstractConfig)
-
-// ---------------------
 // BOOM V3 Trace characterization Configs
 // ---------------------
 
@@ -242,8 +148,3 @@ class LargeBoomV3TraceConfig extends Config(
   new chipyard.config.AbstractConfig)
 
 
-class LargeBoomScalarCountersSmallCacheConfig extends Config(
-  new boom.v3.common.HasPMUScalarCounters ++
-  new freechips.rocketchip.rocket.WithL1DCacheSets(32) ++
-  new boom.v3.common.WithNLargeBooms(1) ++
-  new chipyard.config.AbstractConfig)
