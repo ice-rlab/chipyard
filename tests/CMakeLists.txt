@@ -87,6 +87,12 @@ add_executable(gcd gcd.c)
 add_executable(hello hello.c)
 add_executable(mt-hello mt-hello.c)
 add_executable(symmetric symmetric.c)
+add_executable(ctr-interrupt ctr-interrupt.c)
+add_executable(mar mar.c)
+add_executable(lcofi lcofi.c)
+add_executable(ssconfpmf_overflow_test ssconfpmf_overflow_test.c)
+add_executable(boom_hpm_test boom_hpm_test.c)
+add_executable(opensbi-mstatus-init opensbi-mstatus-init.c)
 
 #################################
 # Disassembly

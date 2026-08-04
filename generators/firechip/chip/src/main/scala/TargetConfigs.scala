@@ -280,6 +280,7 @@ class FireSimDmiRocketConfig extends Config(
   new WithFireSimConfigTweaks ++
   new chipyard.dmiRocketConfig)
 
+
 //*****************************************************************
 // Boom config, base off chipyard's LargeBoomV3Config
 //*****************************************************************
@@ -378,6 +379,12 @@ class FireSimLargeBoomSV39CospikeConfig extends Config(
   new freechips.rocketchip.rocket.WithSV39 ++
   new chipyard.LargeBoomV3Config)
 
+
+class FireSimSmallBoom1GiBConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.SmallBoomV3Config)
 
 class FireSimLargeBoom1GiBConfig extends Config(
   new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
@@ -494,3 +501,39 @@ class FireimLargeNVDLARocketConfig4GiB extends Config(
   new WithDefaultFireSimBridges ++
   new WithFireSimConfigTweaks ++
   new chipyard.LargeNVDLARocketConfig)
+
+
+//*********************************************************************************/
+//* CTR configs
+//*********************************************************************************/
+class FireSimSmallBoomV3CTR16PerfConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.SmallBoomV3CTR16PerfConfig)
+
+
+
+  class FireSimRocketPerf1GiBDRAMConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.RocketPerfConfig)
+
+  class FireSimBOOMCTR16MAR16PerfConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.SmallBoomV3CTR16MAR16PerfConfig)
+
+  class FireSimLargeBoomLLVCV3CTR16AR16PerfConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.LargeBoomLLVCV3CTR16AR16PerfConfig)
+
+  class FireSimLargeBoomLLVCV3CTR32AR32PerfConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize((1 << 30) * 1L) ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.LargeBoomLLVCV3CTR32AR32PerfConfig)
