@@ -248,6 +248,17 @@ class FireSimDmiRocketConfig extends Config(
   new chipyard.dmiRocketConfig)
 
 //*****************************************************************
+// Radiance configs
+//*****************************************************************
+
+class FireSimRadianceSingleClusterSynConfig extends Config(
+  new freechips.rocketchip.subsystem.WithExtMemSize(4L << 30) ++
+  new chipyard.config.WithNoTraceIO ++
+  new WithDefaultFireSimBridges ++
+  new WithFireSimConfigTweaks ++
+  new chipyard.RadianceSingleClusterSynConfig)
+
+//*****************************************************************
 // Boom config, base off chipyard's LargeBoomV3Config
 //*****************************************************************
 class FireSimLargeBoomConfig extends Config(
