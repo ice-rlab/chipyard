@@ -170,7 +170,7 @@ if run_step "1"; then
     # done with cloning base then installing conda lock to speed up dependency solving.
     CONDA_LOCK_ENV_PATH=$CYDIR/.conda-lock-env
     rm -rf $CONDA_LOCK_ENV_PATH &&
-    conda create -y -p $CONDA_LOCK_ENV_PATH -c conda-forge $(grep "conda-lock" $CONDA_REQS/chipyard-base.yaml | sed 's/^ \+-//') &&
+    conda create -y -p $CONDA_LOCK_ENV_PATH -c conda-forge $(grep "conda-lock" $CONDA_REQS/chipyard-base.yaml | sed 's/^ \+-//') python=3.12 &&
     source $(conda info --base)/etc/profile.d/conda.sh &&
     conda activate $CONDA_LOCK_ENV_PATH
     exit_if_last_command_failed
