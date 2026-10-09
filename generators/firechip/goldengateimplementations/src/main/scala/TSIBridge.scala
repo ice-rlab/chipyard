@@ -71,7 +71,7 @@ class TSIBridgeModule(tsiBridgeParams: TSIBridgeParams)(implicit p: Parameters)
               CppBoolean(tsiBridgeParams.memoryRegionNameOpt.isDefined),
               UInt64(offsetConst)
           ),
-          hasLoadMem = true
+          hasOptionalLoadMem = true
       )
     }
   }
