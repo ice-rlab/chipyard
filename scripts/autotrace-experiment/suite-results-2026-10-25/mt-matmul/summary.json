@@ -1,0 +1,281 @@
+{
+  "workload": "mt-matmul",
+  "simulator": "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+  "simulator_sha256": "7c42c4da39e0821ef1296e061c9f453dd0f7e6ad665e3e828854ae54bb9a5390",
+  "binary": "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv",
+  "binary_sha256": "9ba428e5db0a67380c56bd30abed2f9e467121071b395a55d71ee92f0c9316fc",
+  "scope": "ROI: matmul and barrier on one hart, 16x16 dataset, excluding printing/verification; wall: simulator process including final drain",
+  "unavailable": [
+    "committed_branches",
+    "taken_branches",
+    "icache_accesses",
+    "frontend_stall_cycles",
+    "committed_branch_misprediction_rate"
+  ],
+  "sampling_settings": {
+    "period": "every enabled event",
+    "history_depth": 32,
+    "capture_batches": 16,
+    "stream_queue_entries": 6144,
+    "sampling_interrupts": 0,
+    "trace_scope": "whole simulator run"
+  },
+  "runs": [
+    {
+      "mode": "baseline",
+      "repeat": 0,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-disable",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 7.728811584413052,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4670.5757548547335,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 0,
+          "trace_records": 0,
+          "trace_stream_bytes": 0,
+          "trace_csv_bytes": 0,
+          "host_cycles_blocked": 0,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 0
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    },
+    {
+      "mode": "collection",
+      "repeat": 0,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-filename-base=/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-results-2026-10-25/mt-matmul/0-collection/trace",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 8.681146662682295,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4158.206444682558,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 1,
+          "trace_records": 19770,
+          "trace_stream_bytes": 1339776,
+          "trace_csv_bytes": 7938976,
+          "host_cycles_blocked": 8051,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 16
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    },
+    {
+      "mode": "collection",
+      "repeat": 1,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-filename-base=/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-results-2026-10-25/mt-matmul/1-collection/trace",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 8.579321794211864,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4207.558693550103,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 1,
+          "trace_records": 19770,
+          "trace_stream_bytes": 1339776,
+          "trace_csv_bytes": 7938976,
+          "host_cycles_blocked": 8051,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 16
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    },
+    {
+      "mode": "baseline",
+      "repeat": 1,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-disable",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 7.728408694267273,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4670.819236924741,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 0,
+          "trace_records": 0,
+          "trace_stream_bytes": 0,
+          "trace_csv_bytes": 0,
+          "host_cycles_blocked": 0,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 0
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    },
+    {
+      "mode": "baseline",
+      "repeat": 2,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-disable",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 7.87907338142395,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4581.503211419027,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 0,
+          "trace_records": 0,
+          "trace_stream_bytes": 0,
+          "trace_csv_bytes": 0,
+          "host_cycles_blocked": 0,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 0
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    },
+    {
+      "mode": "collection",
+      "repeat": 2,
+      "command": [
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/sims/firesim/sim/generated-src/f1/f1-firesim-FireSim-FireSimLargeBoomConfig-AutoTraceF1Config/VFireSim",
+        "+permissive",
+        "+fesvr-step-size=128",
+        "+max-cycles=5000000",
+        "+autotrace-filename-base=/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-results-2026-10-25/mt-matmul/2-collection/trace",
+        "+permissive-off",
+        "/home/cc5428/riscv-performance-characterization/platforms/chipyard/scripts/autotrace-experiment/suite-build/mt-matmul.riscv"
+      ],
+      "wall_seconds": 8.62984512001276,
+      "returncode": 0,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6,
+        "correctness": "PASS"
+      },
+      "simulated_cycles": 36098,
+      "simulation_cycles_per_second": 4182.925591131191,
+      "bridges": [
+        {
+          "stream_idx": 1,
+          "enabled": 1,
+          "trace_records": 19770,
+          "trace_stream_bytes": 1339776,
+          "trace_csv_bytes": 7938976,
+          "host_cycles_blocked": 8051,
+          "capture_occupancy_final": 0,
+          "capture_max_occupancy": 16
+        }
+      ],
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651
+    }
+  ],
+  "medians": {
+    "baseline": {
+      "wall_seconds": 7.728811584413052,
+      "simulation_cycles_per_second": 4670.5757548547335,
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6
+      }
+    },
+    "collection": {
+      "wall_seconds": 8.62984512001276,
+      "simulation_cycles_per_second": 4182.925591131191,
+      "cpi": 0.44467103144789094,
+      "icache_acquire_mpki": 0.2146613716861651,
+      "counters": {
+        "target_cycles": 12429,
+        "retired_instructions": 27951,
+        "branch_misprediction_recoveries": 14,
+        "icache_acquires": 6
+      }
+    }
+  },
+  "collection_slowdown": 1.1165811232113425,
+  "collection_roi_cycle_change_fraction": 0.0
+}
