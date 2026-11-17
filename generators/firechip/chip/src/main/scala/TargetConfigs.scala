@@ -422,26 +422,29 @@ class FireSimMediumBoom1GiBConfig extends Config(
   new WithFireSimConfigTweaks ++
   new chipyard.MediumBoomV3Config)
 
-class FireSimMediumBoomPrefetch1GiBConfig extends Config(
-  new boom.v3.common.WithBoomDataPrefetching ++
-  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.MediumBoomV3Config)
+// TODO(radiance-integration): boom.v3.common.WithBoomDataPrefetching is not
+// defined in any pushed ice-rlab/riscv-boom branch (also breaks v13.0 firechip),
+// so these prefetch configs are disabled until that fragment is pushed.
+// class FireSimMediumBoomPrefetch1GiBConfig extends Config(
+//   new boom.v3.common.WithBoomDataPrefetching ++
+//   new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+//   new WithDefaultFireSimBridges ++
+//   new WithFireSimConfigTweaks ++
+//   new chipyard.MediumBoomV3Config)
 
-class FireSimLargeBoomPrefetch1GiBConfig extends Config(
-  new boom.v3.common.WithBoomDataPrefetching ++
-  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.LargeBoomV3Config)
+// class FireSimLargeBoomPrefetch1GiBConfig extends Config(
+//   new boom.v3.common.WithBoomDataPrefetching ++
+//   new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+//   new WithDefaultFireSimBridges ++
+//   new WithFireSimConfigTweaks ++
+//   new chipyard.LargeBoomV3Config)
 
-class FireSimMegaBoomPrefetch1GiBConfig extends Config(
-  new boom.v3.common.WithBoomDataPrefetching ++
-  new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
-  new WithDefaultFireSimBridges ++
-  new WithFireSimConfigTweaks ++
-  new chipyard.MegaBoomV3Config)
+// class FireSimMegaBoomPrefetch1GiBConfig extends Config(
+//   new boom.v3.common.WithBoomDataPrefetching ++
+//   new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
+//   new WithDefaultFireSimBridges ++
+//   new WithFireSimConfigTweaks ++
+//   new chipyard.MegaBoomV3Config)
 
 class FireSimLargeBoom1GiBConfig extends Config(
   new freechips.rocketchip.subsystem.WithExtMemSize(1L << 30) ++
