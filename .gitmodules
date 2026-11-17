@@ -24,7 +24,7 @@
 	url = https://github.com/ucb-bar/FFTGenerator.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = https://github.com/ucb-bar/gemmini.git
+	url = git@github.com:ice-rlab/gemmini.git
 [submodule "generators/hardfloat"]
 	path = generators/hardfloat
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
@@ -63,7 +63,7 @@
 	url = https://github.com/ucb-bar/testchipip.git
 [submodule "sims/firesim"]
 	path = sims/firesim
-	url = https://github.com/firesim/firesim.git
+	url = git@github.com:ice-rlab/firesim.git
 [submodule "software/baremetal-ide"]
 	path = software/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
@@ -162,4 +162,4 @@
 	url = https://github.com/riscv-tacit/tacit.git
 [submodule "generators/radiance"]
 	path = generators/radiance
-	url = https://github.com/ucb-bar/radiance.git
+	url = git@github.com:ice-rlab/radiance.git
