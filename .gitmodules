@@ -6,7 +6,8 @@
 	url = https://github.com/ucb-bar/bar-fetchers.git
 [submodule "generators/boom"]
 	path = generators/boom
-	url = https://github.com/riscv-boom/riscv-boom.git
+	url = git@github.com:ice-rlab/riscv-boom.git
+	branch = perf_char
 [submodule "generators/caliptra-aes-acc"]
 	path = generators/caliptra-aes-acc
 	url = https://github.com/ucb-bar/caliptra-aes-acc.git
@@ -24,7 +25,8 @@
 	url = https://github.com/ucb-bar/FFTGenerator.git
 [submodule "generators/gemmini"]
 	path = generators/gemmini
-	url = https://github.com/ucb-bar/gemmini.git
+	url = git@github.com:ice-rlab/gemmini.git
+	branch = perf_char
 [submodule "generators/hardfloat"]
 	path = generators/hardfloat
 	url = https://github.com/ucb-bar/berkeley-hardfloat.git
@@ -48,7 +50,8 @@
 	url = https://github.com/ucb-bar/rocc-acc-utils.git
 [submodule "generators/rocket-chip"]
 	path = generators/rocket-chip
-	url = https://github.com/chipsalliance/rocket-chip.git
+	url = git@github.com:ice-rlab/rocket-chip.git
+	branch = perf_char
 [submodule "generators/rocket-chip-blocks"]
 	path = generators/rocket-chip-blocks
 	url = https://github.com/chipsalliance/rocket-chip-blocks.git
@@ -63,7 +66,8 @@
 	url = https://github.com/ucb-bar/testchipip.git
 [submodule "sims/firesim"]
 	path = sims/firesim
-	url = https://github.com/firesim/firesim.git
+	url = git@github.com:ice-rlab/firesim.git
+	branch = perf_char
 [submodule "software/baremetal-ide"]
 	path = software/baremetal-ide
 	url = https://github.com/ucb-bar/Baremetal-IDE.git
@@ -114,7 +118,8 @@
 	url = https://github.com/chipsalliance/cde.git
 [submodule "tools/circt"]
 	path = tools/circt
-	url = https://github.com/llvm/circt.git
+	url = git@github.com:ice-rlab/circt.git
+	branch = chipyard-integration
 [submodule "tools/install-circt"]
 	path = tools/install-circt
 	url = https://github.com/circt/install-circt.git
@@ -135,7 +140,7 @@
 	url = https://github.com/ucb-bar/rerocc.git
 [submodule "generators/compress-acc"]
 	path = generators/compress-acc
-	url = https://github.com/ucb-bar/compress-acc.git
+	url = git@github.com:ice-rlab/compress-acc.git
 [submodule "generators/saturn"]
 	path = generators/saturn
 	url = https://github.com/ucb-bar/saturn-vectors.git
@@ -162,4 +167,10 @@
 	url = https://github.com/riscv-tacit/tacit.git
 [submodule "generators/radiance"]
 	path = generators/radiance
-	url = https://github.com/ucb-bar/radiance.git
+	url = git@github.com:ice-rlab/radiance.git
+[submodule "generators/protoacc"]
+	path = generators/protoacc
+	url = git@github.com:ice-rlab/protoacc.git
+[submodule "tools/llvm-project"]
+	path = tools/llvm-project
+	url = git@github.com:llvm/llvm-project.git

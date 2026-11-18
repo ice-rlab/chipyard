@@ -25,6 +25,11 @@ class MegaBoomV3Config extends Config(
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
 
+class GigaBoomV3Config extends Config(
+  new boom.v3.common.WithNGigaBooms(1) ++                     // giga boom config
+  new chipyard.config.WithSystemBusWidth(128) ++
+  new chipyard.config.AbstractConfig)
+
 class DualSmallBoomV3Config extends Config(
   new boom.v3.common.WithNSmallBooms(2) ++                          // 2 boom cores
   new chipyard.config.AbstractConfig)
@@ -69,6 +74,7 @@ class SimBlockDeviceMegaBoomV3Config extends Config(
   new boom.v3.common.WithNMegaBooms(1) ++                        // mega boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
+
 
 // ---------------------
 // BOOM V4 Configs
@@ -131,3 +137,14 @@ class SimBlockDeviceMegaBoomV4Config extends Config(
   new boom.v4.common.WithNMegaBooms(1) ++                        // mega boom config
   new chipyard.config.WithSystemBusWidth(128) ++
   new chipyard.config.AbstractConfig)
+
+
+// ---------------------
+// BOOM V3 Trace characterization Configs
+// ---------------------
+
+class LargeBoomV3TraceConfig extends Config(
+  new boom.v3.common.WithNLargeBooms(1) ++
+  new chipyard.config.AbstractConfig)
+
+

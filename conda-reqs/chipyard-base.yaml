@@ -16,9 +16,16 @@ dependencies:
     #   documentation on package_spec syntax for constraining versions
     - gcc=13.2
     - gxx=13.2
+    - gfortran=13.2 #needed when compiling SPEC benchmarks
     - sysroot_linux-64=2.34 # need to be close to system glibc for VCS compatibility
     - conda-gcc-specs
     - binutils
+
+    # LLVM / Clang toolchain
+    - clang=18.1.7
+    - clangxx=18.1.7
+    - lld=18.1.7
+    - llvm-tools=18.1.7
 
     # misc
     - autoconf

@@ -63,6 +63,7 @@ USE_UNPINNED_DEPS=false
 USE_LEAN_CONDA=false
 SKIP_LIST=()
 BUILD_CIRCT=false
+BUILD_LLVM=false
 GLOBAL_ENV_NAME=""
 GITHUB_TOKEN="null"
 
@@ -82,6 +83,8 @@ do
             SKIP_LIST+=(4 6 7 8 9) ;;
         --build-circt)
             BUILD_CIRCT=true ;;
+        --build-llvm)
+            BUILD_LLVM=true ;;
         --conda-env-name)
             shift
             GLOBAL_ENV_NAME=${1} ;;
@@ -175,7 +178,7 @@ conda environment or \`source env.sh\` and skip this step with \`-s 1\`." >&2
     fi
     
     rm -rf $CONDA_LOCK_ENV_PATH &&
-    conda create -y -p $CONDA_LOCK_ENV_PATH -c conda-forge $(grep "conda-lock" $CONDA_REQS/chipyard-base.yaml | sed 's/^ \+-//') &&
+    conda create -y -p $CONDA_LOCK_ENV_PATH -c conda-forge $(grep "conda-lock" $CONDA_REQS/chipyard-base.yaml | sed 's/^ \+-//') python=3.12 &&
     source $(conda info --base)/etc/profile.d/conda.sh &&
     conda activate $CONDA_LOCK_ENV_PATH
     exit_if_last_command_failed
@@ -284,6 +287,11 @@ if run_step "6"; then
             set -e # Subshells un-set "set -e" so it must be re enabled
             source sourceme-manager.sh --skip-ssh-setup
             pushd sim
+
+            # Build our own custom FIRRTL here also
+            pushd firrtl
+            env SBT_OPTS=-Dsbt.ivy.home=$CYDIR/sims/firesim/sim/.ivy2  sbt '++ 2.13.10!' 'set version := "1.6.0-matt-SNAPSHOT"' publishLocal
+            popd
             # avoid directly building classpath s.t. target-injected files can be recompiled
             make sbt SBT_COMMAND="compile"
             popd
@@ -327,22 +335,25 @@ if run_step "10"; then
     fi
 
     if [ "$BUILD_CIRCT" = true ] ; then
-	echo "Building CIRCT from source, and installing to $PREFIX"
-	$CYDIR/scripts/build-circt-from-source.sh --prefix $PREFIX
+        echo "Building CIRCT from source, and installing to $PREFIX"
+        $CYDIR/scripts/build-circt-from-source.sh --prefix $PREFIX
     else
-	echo "Downloading CIRCT from nightly build"
+        echo "Downloading CIRCT https://github.com/ice-rlab/circt/releases/"
+        # Download our custom CIRCT tools
+        wget https://github.com/ice-rlab/circt/releases/download/prebuilt/circt-bin.tar.gz circt-bin.tar.gz
+        tar -xvf circt-bin.tar.gz -C $CONDA_PREFIX/$TOOLCHAIN_TYPE/bin
+        rm -rf circt-bin.tar.gz
+    fi
+    exit_if_last_command_failed
 
-	git submodule update --init $CYDIR/tools/install-circt &&
-	    $CYDIR/tools/install-circt/bin/download-release-or-nightly-circt.sh \
-		-f circt-full-static-linux-x64.tar.gz \
-		-i $PREFIX \
-		-v version-file \
-		-x $CYDIR/conda-reqs/circt.json \
-		-g $GITHUB_TOKEN
+    if [ "$BUILD_LLVM" = true ] ; then
+        echo "Building LLVM from source, and installing to $PREFIX"
+        $CYDIR/scripts/build-llvm-from-source.sh --prefix $PREFIX
+    else
+        echo "Skipping LLVM source build; using LLVM/Clang from conda environment"
     fi
     exit_if_last_command_failed
 fi
-
 
 # do misc. cleanup for a "clean" git status
 if run_step "11"; then

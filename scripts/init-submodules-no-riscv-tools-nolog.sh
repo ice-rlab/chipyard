@@ -182,6 +182,7 @@ cd "$RDIR"
 	    generators/cva6 \
             generators/ibex \
             generators/riscv-sodor \
+            generators/protoacc \
             generators/vexiiriscv \
             generators/ara \
 	    generators/caliptra-aes-acc \
@@ -297,6 +298,10 @@ cd "$RDIR"
     # Non-recursive clone
     submodule_name="generators/rocket-chip"
     git submodule update --init generators/rocket-chip || exit 1
+
+    # Non-recursive clone (ice-rlab: protoacc has a large nested submodule)
+    submodule_name="generators/protoacc"
+    git submodule update --init generators/protoacc || exit 1
 
     # Minimal non-recursive clone to initialize sbt dependencies
     submodule_name="sims/firesim"

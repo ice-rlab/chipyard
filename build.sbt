@@ -231,6 +231,7 @@ lazy val chipyard = {
     "radiance" -> radiance,
     "caliptra-aes-acc" -> caliptra_aes,
     "compress-acc" -> compressacc,
+    "protoacc" -> protoacc,
     "mempress" -> mempress,
     "fft-generator" -> fft_generator
   )
@@ -259,6 +260,11 @@ lazy val chipyard = {
 }
 
 lazy val compressacc = withInitCheck((project in file("generators/compress-acc")), "compress-acc")
+  .dependsOn(rocketchip)
+  .settings(libraryDependencies ++= rocketLibDeps.value)
+  .settings(commonSettings)
+
+lazy val protoacc = withInitCheck((project in file("generators/protoacc")), "protoacc")
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
@@ -399,7 +405,6 @@ lazy val rocc_acc_utils = withInitCheck((project in file("generators/rocc-acc-ut
   .dependsOn(rocketchip)
   .settings(libraryDependencies ++= rocketLibDeps.value)
   .settings(commonSettings)
-
 lazy val tapeout = (project in file("./tools/tapeout/"))
   .settings(chisel3Settings) // stuck on chisel3 and SFC
   .settings(commonSettings)

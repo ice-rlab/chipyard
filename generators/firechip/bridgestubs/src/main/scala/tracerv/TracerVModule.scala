@@ -31,7 +31,7 @@ class TracerVDUTIO(widths: TraceBundleWidths) extends Bundle {
 }
 
 class TracerVDUT(implicit val p: Parameters) extends Module {
-  val insnWidths = TraceBundleWidths(p(TracerVModuleInstrRetireCount), 40, 32, None, 64, 64)
+  val insnWidths = TraceBundleWidths(p(TracerVModuleInstrRetireCount), 40, 32, None, 64, 64, None)
 
   val io = IO(new TracerVDUTIO(insnWidths))
 

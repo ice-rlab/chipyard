@@ -15,6 +15,7 @@ common_setup
 [ -n "${MAKE:+x}" ] || MAKE=$(command -v gnumake || command -v gmake || command -v make)
 readonly MAKE
 
+
 usage() {
     echo "usage: ${0}"
     echo ""
@@ -24,7 +25,6 @@ usage() {
     echo "   --no-conda            : Do not link CIRCT with conda libraries"
     exit "$1"
 }
-
 PREFIX=""
 CONDA=1
 
@@ -71,8 +71,7 @@ echo "Cloning CIRCT/LLVM"
 echo "Building CIRCT's LLVM/MLIR"
 (
     cd $RDIR/tools/circt
-    rm -rf llvm/build
-    mkdir llvm/build
+    mkdir -p llvm/build
     cd llvm/build
     cmake -G Ninja ../llvm \
           -DLLVM_ENABLE_PROJECTS="mlir" \
@@ -84,20 +83,25 @@ echo "Building CIRCT's LLVM/MLIR"
     ninja
 )
 
+
+## Make sure that you have Z3 installed an iin this directory
 echo "Building CIRCT"
 (
     cd $RDIR/tools/circt
-    rm -rf build
-    mkdir build
+    mkdir -p build
     cd build
     cmake -G Ninja .. \
           -DMLIR_DIR=$RDIR/tools/circt/llvm/build/lib/cmake/mlir \
           -DLLVM_DIR=$RDIR/tools/circt/llvm/build/lib/cmake/llvm \
           -DLLVM_ENABLE_ASSERTIONS=ON \
-          -DCMAKE_BUILD_TYPE=RELEASE \
+          -DCMAKE_BUILD_TYPE=DEBUG \
+          -DCMAKE_C_COMPILER=/usr/bin/gcc \
+          -DCMAKE_CXX_COMPILER=/usr/bin/g++ \
           -DCMAKE_INSTALL_PREFIX=$PREFIX \
+          -DZ3_INCLUDE_DIR="/usr/include" \
+          -DZ3_LIBRARIES="/usr/lib/x86_64-linux-gnu/libz3.so" \
           ${CONDA:+-DCMAKE_EXE_LINKER_FLAGS="-L$RDIR/.conda-env/lib"}
-    ninja
+    ninja firtool circt-opt circt-translate #Do we need more than this?
 )
 
 echo "Installing CIRCT to $PREFIX"
